@@ -10,7 +10,7 @@ There is long discussion history of brand check, and various efforts on this are
 
 ```js
 class C {
-  isC(o) {
+  static isC(o) {
     return o instanceof C
   }
 }
@@ -21,7 +21,7 @@ class C {
 ```js
 class C {
   #x
-  isC(o) {
+  static isC(o) {
     return #x in o
   }
 }
@@ -35,7 +35,7 @@ Even you already use private fields for good reasons, this also cause the proble
 class C {
   #x
   #y // add a new field
-  isC(o) {
+  static isC(o) {
     return #x in o // do we need to update it to
     // return #x in o && #y in o
   }
@@ -50,7 +50,7 @@ A better solution:
 
 ```js
 class C {
-  isC(o) {
+  static isC(o) {
     return class.hasInstance(o) // class.hasInstance is a meta method to check whether o have the class brand of C
   }
 }
@@ -60,7 +60,7 @@ Actually it also allow programmers use `Symbol.hasInstance` to "fix" `instanceof
 
 ```js
 class C {
-  [Symbol.hasInstance](o) {
+  static [Symbol.hasInstance](o) {
     return class.hasInstance(o) // class.hasInstance is a meta method to check whether o have the class brand of C
   }
 }
