@@ -1,6 +1,6 @@
 # Class brand check
 
-Stage: 0
+Stage: 1
 
 Champion: HE Shi-Jun
 
@@ -66,11 +66,7 @@ class C {
 }
 ```
 
-## Do we need both private-in and class brand check?
-
-TBD
-
-### Analysis of edge cases of using private-in VS using class brand check
+## Analysis of edge cases of interactions of using class brand check with private fields
 
 TBD
 
