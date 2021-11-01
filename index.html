@@ -3,7 +3,7 @@
 <link rel="stylesheet" href="./spec.css">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/styles/github.min.css">
 <script src="./spec.js"></script>
-<title>Proposal Title Goes Here</title><script type="application/json" id="menu-search-biblio">[{"type":"clause","id":"sec-demo-clause","aoid":null,"title":"This is an emu-clause","titleHTML":"This is an emu-clause","number":"1","namespace":"<no location>","location":"","referencingIds":[],"key":"This is an emu-clause"},{"type":"clause","id":"sec-copyright-and-software-license","aoid":null,"title":"Copyright & Software License","titleHTML":"Copyright &amp; Software License","number":"A","namespace":"<no location>","location":"","referencingIds":[],"key":"Copyright & Software License"}]</script><script>"use strict";
+<title>Proposal Title Goes Here</title><script type="application/json" id="menu-search-biblio">[{"type":"production","id":"prod-CallExpression","name":"CallExpression","referencingIds":["_ref_12","_ref_13","_ref_16","_ref_17","_ref_18","_ref_19","_ref_20"],"namespace":"<no location>","location":"","key":"CallExpression"},{"type":"clause","id":"sec-static-semantics-assignmenttargettype","aoid":null,"title":"Static Semantics: AssignmentTargetType","titleHTML":"Static Semantics: AssignmentTargetType","number":"1.1.1","namespace":"<no location>","location":"","referencingIds":[],"key":"Static Semantics: AssignmentTargetType"},{"type":"clause","id":"sec-syntax-directed-operations-miscellaneous","aoid":null,"title":"Miscellaneous","titleHTML":"Miscellaneous","number":"1.1","namespace":"<no location>","location":"","referencingIds":[],"key":"Miscellaneous"},{"type":"clause","id":"sec-syntax-directed-operations","aoid":null,"title":"Syntax-Directed Operations","titleHTML":"Syntax-Directed Operations","number":"1","namespace":"<no location>","location":"","referencingIds":[],"key":"Syntax-Directed Operations"},{"type":"clause","id":"sec-ecmascript-function-objects-construct-argumentslist-newtarget","aoid":null,"title":"\n        [[Construct]] (\n          argumentsList: a List of ECMAScript language values,\n          newTarget: a constructor,\n        )\n      ","titleHTML":"\n        [[Construct]] (\n          <var>argumentsList</var>: a List of ECMAScript language values,\n          <var>newTarget</var>: a constructor,\n        )\n      ","number":"2.1.1","namespace":"<no location>","location":"","referencingIds":[],"key":"\n        [[Construct]] (\n          argumentsList: a List of ECMAScript language values,\n          newTarget: a constructor,\n        )\n      "},{"type":"clause","id":"sec-ecmascript-function-objects","aoid":null,"title":"ECMAScript Function Objects","titleHTML":"ECMAScript Function Objects","number":"2.1","namespace":"<no location>","location":"","referencingIds":[],"key":"ECMAScript Function Objects"},{"type":"clause","id":"sec-ordinary-and-exotic-objects-behaviours","aoid":null,"title":"Ordinary and Exotic Objects Behaviours","titleHTML":"Ordinary and Exotic Objects Behaviours","number":"2","namespace":"<no location>","location":"","referencingIds":[],"key":"Ordinary and Exotic Objects Behaviours"},{"type":"production","id":"prod-ClassBrandCheckCall","name":"ClassBrandCheckCall","referencingIds":["_ref_14","_ref_15"],"namespace":"<no location>","location":"","key":"ClassBrandCheckCall"},{"type":"clause","id":"sec-class-keyword-runtime-semantics-evaluation","aoid":null,"title":"Runtime Semantics: Evalutaion","titleHTML":"Runtime Semantics: Evalutaion","number":"3.1.1.1","namespace":"<no location>","location":"","referencingIds":[],"key":"Runtime Semantics: Evalutaion"},{"type":"clause","id":"sec-get-constructor","aoid":null,"title":"GetConstructor ( )","titleHTML":"GetConstructor ( )","number":"3.1.1.2","namespace":"<no location>","location":"","referencingIds":[],"key":"GetConstructor ( )"},{"type":"clause","id":"sec-class-keyword","aoid":null,"title":"The class Keyword","titleHTML":"The <code>class</code> Keyword","number":"3.1.1","namespace":"<no location>","location":"","referencingIds":[],"key":"The class Keyword"},{"type":"clause","id":"sec-left-hand-side-expressions","aoid":null,"title":"Left-Hand-Side Expressions","titleHTML":"Left-Hand-Side Expressions","number":"3.1","namespace":"<no location>","location":"","referencingIds":[],"key":"Left-Hand-Side Expressions"},{"type":"clause","id":"sec-ecmascript-language-expressions","aoid":null,"title":"ECMAScript Language: Expressions","titleHTML":"ECMAScript Language: Expressions","number":"3","namespace":"<no location>","location":"","referencingIds":[],"key":"ECMAScript Language: Expressions"},{"type":"clause","id":"sec-copyright-and-software-license","aoid":null,"title":"Copyright & Software License","titleHTML":"Copyright &amp; Software License","number":"A","namespace":"<no location>","location":"","referencingIds":[],"key":"Copyright & Software License"}]</script><script>"use strict";
 
 function Search(menu) {
   this.menu = menu;
@@ -1851,12 +1851,140 @@ li.menu-search-result-term:before {
     display: none; 
   }
 }
-</style></head><body><div id="menu-toggle">☰</div><div id="menu-spacer"></div><div id="menu"><div id="menu-search"><input type="text" id="menu-search-box" placeholder="Search..."><div id="menu-search-results" class="inactive"></div></div><div id="menu-pins"><div class="menu-pane-header">Pins</div><ul id="menu-pins-list"></ul></div><div class="menu-pane-header">Table of Contents</div><div id="menu-toc"><ol class="toc"><li><span class="item-toggle-none"></span><a href="#sec-demo-clause" title="This is an emu-clause"><span class="secnum">1</span> This is an emu-clause</a></li><li><span class="item-toggle-none"></span><a href="#sec-copyright-and-software-license" title="Copyright &amp; Software License"><span class="secnum">A</span> Copyright &amp; Software License</a></li></ol></div></div><div id="spec-container"><h1 class="version first">Stage -1 Draft / January 29, 2021</h1><h1 class="title">Proposal Title Goes Here</h1>
+</style></head><body><div id="menu-toggle">☰</div><div id="menu-spacer"></div><div id="menu"><div id="menu-search"><input type="text" id="menu-search-box" placeholder="Search..."><div id="menu-search-results" class="inactive"></div></div><div id="menu-pins"><div class="menu-pane-header">Pins</div><ul id="menu-pins-list"></ul></div><div class="menu-pane-header">Table of Contents</div><div id="menu-toc"><ol class="toc"><li><span class="item-toggle">◢</span><a href="#sec-syntax-directed-operations" title="Syntax-Directed Operations"><span class="secnum">1</span> Syntax-Directed Operations</a><ol class="toc"><li><span class="item-toggle">◢</span><a href="#sec-syntax-directed-operations-miscellaneous" title="Miscellaneous"><span class="secnum">1.1</span> Miscellaneous</a><ol class="toc"><li><span class="item-toggle-none"></span><a href="#sec-static-semantics-assignmenttargettype" title="Static Semantics: AssignmentTargetType"><span class="secnum">1.1.1</span> SS: AssignmentTargetType</a></li></ol></li></ol></li><li><span class="item-toggle">◢</span><a href="#sec-ordinary-and-exotic-objects-behaviours" title="Ordinary and Exotic Objects Behaviours"><span class="secnum">2</span> Ordinary and Exotic Objects Behaviours</a><ol class="toc"><li><span class="item-toggle">◢</span><a href="#sec-ecmascript-function-objects" title="ECMAScript Function Objects"><span class="secnum">2.1</span> ECMAScript Function Objects</a><ol class="toc"><li><span class="item-toggle-none"></span><a href="#sec-ecmascript-function-objects-construct-argumentslist-newtarget" title="
+        [[Construct]] (
+          argumentsList: a List of ECMAScript language values,
+          newTarget: a constructor,
+        )
+      "><span class="secnum">2.1.1</span> 
+        [[Construct]] (
+          <var>argumentsList</var>: a List of ECMAScript language values,
+          <var>newTarget</var>: a constructor,
+        )
+      </a></li></ol></li></ol></li><li><span class="item-toggle">◢</span><a href="#sec-ecmascript-language-expressions" title="ECMAScript Language: Expressions"><span class="secnum">3</span> ECMAScript Language: Expressions</a><ol class="toc"><li><span class="item-toggle">◢</span><a href="#sec-left-hand-side-expressions" title="Left-Hand-Side Expressions"><span class="secnum">3.1</span> Left-Hand-Side Expressions</a><ol class="toc"><li><span class="item-toggle">◢</span><a href="#sec-class-keyword" title="The class Keyword"><span class="secnum">3.1.1</span> The <code>class</code> Keyword</a><ol class="toc"><li><span class="item-toggle-none"></span><a href="#sec-class-keyword-runtime-semantics-evaluation" title="Runtime Semantics: Evalutaion"><span class="secnum">3.1.1.1</span> RS: Evalutaion</a></li><li><span class="item-toggle-none"></span><a href="#sec-get-constructor" title="GetConstructor ( )"><span class="secnum">3.1.1.2</span> GetConstructor ( )</a></li></ol></li></ol></li></ol></li><li><span class="item-toggle-none"></span><a href="#sec-copyright-and-software-license" title="Copyright &amp; Software License"><span class="secnum">A</span> Copyright &amp; Software License</a></li></ol></div></div><div id="spec-container"><h1 class="version first">Stage -1 Draft / November 1, 2021</h1><h1 class="title">Proposal Title Goes Here</h1>
 
-<emu-clause id="sec-demo-clause">
-  <h1><span class="secnum">1</span> This is an emu-clause</h1>
-  <p>This is an algorithm:</p>
-  <emu-alg><ol><li>Let <var>proposal</var> be <emu-val>undefined</emu-val>.</li><li>If IsAccepted(<var>proposal</var>),<ol><li>Let <var>stage</var> be <emu-val>0</emu-val>.</li></ol></li><li>Else,<ol><li>Let <var>stage</var> be <emu-val>-1</emu-val>.</li></ol></li><li>Return ?&nbsp;<emu-xref aoid="ToString" id="_ref_0"><a href="https://tc39.es/ecma262/#sec-tostring">ToString</a></emu-xref>(<var>proposal</var>).</li></ol></emu-alg>
+<emu-clause id="sec-syntax-directed-operations">
+  <h1><span class="secnum">1</span> Syntax-Directed Operations</h1>
+
+  <emu-clause id="sec-syntax-directed-operations-miscellaneous">
+    <h1><span class="secnum">1.1</span> Miscellaneous</h1>
+
+    <emu-clause id="sec-static-semantics-assignmenttargettype">
+      <h1><span class="secnum">1.1.1</span> Static Semantics: AssignmentTargetType</h1>
+
+      <emu-grammar type="definition"><emu-production name="CallExpression" id="prod-CallExpression">
+    <emu-nt><a href="#prod-CallExpression">CallExpression</a></emu-nt> <emu-geq>:</emu-geq> <emu-rhs a="7jj-96li"><emu-nt><a href="https://tc39.es/ecma262/#prod-CoverCallExpressionAndAsyncArrowHead">CoverCallExpressionAndAsyncArrowHead</a></emu-nt></emu-rhs>
+    <emu-rhs a="ljkqw-iw"><emu-nt><a href="https://tc39.es/ecma262/#prod-SuperCall">SuperCall</a></emu-nt></emu-rhs>
+    <emu-rhs a="kyx2iyhy"><emu-nt><a href="https://tc39.es/ecma262/#prod-ImportCall">ImportCall</a></emu-nt></emu-rhs>
+    <emu-rhs a="qugahahu">
+        <emu-nt id="_ref_12"><a href="#prod-CallExpression">CallExpression</a></emu-nt>
+        <emu-nt><a href="https://tc39.es/ecma262/#prod-Arguments">Arguments</a></emu-nt>
+    </emu-rhs>
+    <emu-rhs a="rc744wey">
+        <emu-nt id="_ref_13"><a href="#prod-CallExpression">CallExpression</a></emu-nt>
+        <emu-nt><a href="https://tc39.es/ecma262/#prod-TemplateLiteral">TemplateLiteral</a></emu-nt>
+    </emu-rhs>
+    <ins><emu-rhs a="idandvr-"><emu-nt id="_ref_14"><a href="#prod-ClassBrandCheckCall">ClassBrandCheckCall</a></emu-nt></emu-rhs></ins>
+</emu-production>
+</emu-grammar>
+      <emu-alg><ol><li>Return <emu-const>invalid</emu-const>.</li></ol></emu-alg>
+    </emu-clause>
+  </emu-clause>
+</emu-clause>
+
+<emu-clause id="sec-ordinary-and-exotic-objects-behaviours">
+  <h1><span class="secnum">2</span> Ordinary and Exotic Objects Behaviours</h1>
+
+  <emu-clause id="sec-ecmascript-function-objects">
+    <h1><span class="secnum">2.1</span> ECMAScript Function Objects</h1>
+
+    <emu-clause id="sec-ecmascript-function-objects-construct-argumentslist-newtarget" type="internal method">
+      <h1><span class="secnum">2.1.1</span> 
+        [[Construct]] (
+          <var>argumentsList</var>: a List of ECMAScript language values,
+          <var>newTarget</var>: a constructor,
+        )
+      </h1>
+      <dl class="header">
+        <dt>for</dt>
+        <dd>an ECMAScript <emu-xref href="#function-object"><a href="https://tc39.es/ecma262/#function-object">function object</a></emu-xref> <var>F</var></dd>
+      </dl>
+      <emu-alg><ol><li>Let <var>callerContext</var> be the <emu-xref href="#running-execution-context"><a href="https://tc39.es/ecma262/#running-execution-context">running execution context</a></emu-xref>.</li><li>Let <var>kind</var> be <var>F</var>.[[ConstructorKind]].</li><li>If <var>kind</var> is <emu-const>base</emu-const>, then<ol><li>Let <var>thisArgument</var> be ?&nbsp;<emu-xref aoid="OrdinaryCreateFromConstructor" id="_ref_0"><a href="https://tc39.es/ecma262/#sec-ordinarycreatefromconstructor">OrdinaryCreateFromConstructor</a></emu-xref>(<var>newTarget</var>, <emu-val>"%Object.prototype%"</emu-val>).</li></ol></li><li>Let <var>calleeContext</var> be <emu-xref aoid="PrepareForOrdinaryCall" id="_ref_1"><a href="https://tc39.es/ecma262/#sec-prepareforordinarycall">PrepareForOrdinaryCall</a></emu-xref>(<var>F</var>, <var>newTarget</var>).</li><li><emu-xref href="#assert"><a href="https://tc39.es/ecma262/#assert">Assert</a></emu-xref>: <var>calleeContext</var> is now the <emu-xref href="#running-execution-context"><a href="https://tc39.es/ecma262/#running-execution-context">running execution context</a></emu-xref>.</li><li>If <var>kind</var> is <emu-const>base</emu-const>, then<ol><li>Perform <emu-xref aoid="OrdinaryCallBindThis" id="_ref_2"><a href="https://tc39.es/ecma262/#sec-ordinarycallbindthis">OrdinaryCallBindThis</a></emu-xref>(<var>F</var>, <var>calleeContext</var>, <var>thisArgument</var>).</li><li>Let <var>initializeResult</var> be InitializeInstanceElements(<var>thisArgument</var>, <var>F</var>).</li><li>If <var>initializeResult</var> is an <emu-xref href="#sec-completion-record-specification-type"><a href="https://tc39.es/ecma262/#sec-completion-record-specification-type">abrupt completion</a></emu-xref>, then<ol><li>Remove <var>calleeContext</var> from the <emu-xref href="#execution-context-stack"><a href="https://tc39.es/ecma262/#execution-context-stack">execution context stack</a></emu-xref> and restore <var>callerContext</var> as the <emu-xref href="#running-execution-context"><a href="https://tc39.es/ecma262/#running-execution-context">running execution context</a></emu-xref>.</li><li>Return <emu-xref aoid="Completion" id="_ref_3"><a href="https://tc39.es/ecma262/#sec-completion-record-specification-type">Completion</a></emu-xref>(<var>initializeResult</var>).</li></ol></li></ol></li><li>Let <var>constructorEnv</var> be the LexicalEnvironment of <var>calleeContext</var>.</li><li>Let <var>result</var> be <emu-xref aoid="OrdinaryCallEvaluateBody" id="_ref_4"><a href="https://tc39.es/ecma262/#sec-ordinarycallevaluatebody">OrdinaryCallEvaluateBody</a></emu-xref>(<var>F</var>, <var>argumentsList</var>).</li><li>Remove <var>calleeContext</var> from the <emu-xref href="#execution-context-stack"><a href="https://tc39.es/ecma262/#execution-context-stack">execution context stack</a></emu-xref> and restore <var>callerContext</var> as the <emu-xref href="#running-execution-context"><a href="https://tc39.es/ecma262/#running-execution-context">running execution context</a></emu-xref>.</li><li>If <var>result</var>.[[Type]] is <emu-const>return</emu-const>, then<ol><li>If <emu-xref aoid="Type" id="_ref_5"><a href="https://tc39.es/ecma262/#sec-ecmascript-data-types-and-values">Type</a></emu-xref>(<var>result</var>.[[Value]]) is Object, return <emu-xref aoid="NormalCompletion" id="_ref_6"><a href="https://tc39.es/ecma262/#sec-normalcompletion">NormalCompletion</a></emu-xref>(<var>result</var>.[[Value]]).</li><li><del>If <var>kind</var> is <emu-const>base</emu-const>, return <emu-xref aoid="NormalCompletion" id="_ref_7"><a href="https://tc39.es/ecma262/#sec-normalcompletion">NormalCompletion</a></emu-xref>(<var>thisArgument</var>).</del></li><li><ins>If <var>kind</var> is <emu-const>base</emu-const>, then</ins><ol><li><ins>Append <var>F</var> to <var>thisArgument</var>.[[BrandList]].</ins></li><li><ins>Return <emu-xref aoid="NormalCompletion" id="_ref_8"><a href="https://tc39.es/ecma262/#sec-normalcompletion">NormalCompletion</a></emu-xref>(<var>thisArgument</var>).</ins></li></ol></li><li>If <var>result</var>.[[Value]] is not <emu-val>undefined</emu-val>, throw a <emu-val>TypeError</emu-val> exception.</li></ol></li><li>Else, <emu-xref aoid="ReturnIfAbrupt" id="_ref_9"><a href="https://tc39.es/ecma262/#sec-returnifabrupt">ReturnIfAbrupt</a></emu-xref>(<var>result</var>).</li><li><ins>Let <var>currentThis</var> be ? <var>constructorEnv</var>.GetThisBinding().</ins></li><li><ins>Append <var>F</var> to <var>currentThis</var>.[[BrandList]]</ins></li><li><del>Return ? <var>constructorEnv</var>.GetThisBinding().</del></li><li>Return <var>currentThis</var>.</li></ol></emu-alg>
+    </emu-clause>
+  </emu-clause>
+</emu-clause>
+
+<emu-clause id="sec-ecmascript-language-expressions">
+  <h1><span class="secnum">3</span> ECMAScript Language: Expressions</h1>
+
+  <emu-clause id="sec-left-hand-side-expressions">
+    <h1><span class="secnum">3.1</span> Left-Hand-Side Expressions</h1>
+    <h2>Syntax</h2>
+    <emu-grammar type="definition"><emu-production name="CallExpression" params="Yield, Await">
+    <emu-nt params="Yield, Await"><a href="#prod-CallExpression">CallExpression</a><emu-mods><emu-params>[Yield, Await]</emu-params></emu-mods></emu-nt> <emu-geq>:</emu-geq> <emu-rhs a="callcover"><emu-nt params="?Yield, ?Await"><a href="https://tc39.es/ecma262/#prod-CoverCallExpressionAndAsyncArrowHead">CoverCallExpressionAndAsyncArrowHead</a><emu-mods><emu-params>[?Yield, ?Await]</emu-params></emu-mods></emu-nt></emu-rhs>
+    <emu-rhs a="5cynbd7h"><emu-nt params="?Yield, ?Await"><a href="https://tc39.es/ecma262/#prod-SuperCall">SuperCall</a><emu-mods><emu-params>[?Yield, ?Await]</emu-params></emu-mods></emu-nt></emu-rhs>
+    <emu-rhs a="12avhmhv"><emu-nt params="?Yield, ?Await"><a href="https://tc39.es/ecma262/#prod-ImportCall">ImportCall</a><emu-mods><emu-params>[?Yield, ?Await]</emu-params></emu-mods></emu-nt></emu-rhs>
+    <ins><emu-rhs a="azljzdlw"><emu-nt params="?Yield, ?Await" id="_ref_15"><a href="#prod-ClassBrandCheckCall">ClassBrandCheckCall</a><emu-mods><emu-params>[?Yield, ?Await]</emu-params></emu-mods></emu-nt></emu-rhs></ins>
+    <emu-rhs a="zq2ahe82">
+        <emu-nt params="?Yield, ?Await" id="_ref_16"><a href="#prod-CallExpression">CallExpression</a><emu-mods><emu-params>[?Yield, ?Await]</emu-params></emu-mods></emu-nt>
+        <emu-nt params="?Yield, ?Await"><a href="https://tc39.es/ecma262/#prod-Arguments">Arguments</a><emu-mods><emu-params>[?Yield, ?Await]</emu-params></emu-mods></emu-nt>
+    </emu-rhs>
+    <emu-rhs a="jan4qzpu">
+        <emu-nt params="?Yield, ?Await" id="_ref_17"><a href="#prod-CallExpression">CallExpression</a><emu-mods><emu-params>[?Yield, ?Await]</emu-params></emu-mods></emu-nt>
+        <emu-t>[</emu-t>
+        <emu-nt params="+In, ?Yield, ?Await"><a href="https://tc39.es/ecma262/#prod-Expression">Expression</a><emu-mods><emu-params>[+In, ?Yield, ?Await]</emu-params></emu-mods></emu-nt>
+        <emu-t>]</emu-t>
+    </emu-rhs>
+    <emu-rhs a="8fzekpe0">
+        <emu-nt params="?Yield, ?Await" id="_ref_18"><a href="#prod-CallExpression">CallExpression</a><emu-mods><emu-params>[?Yield, ?Await]</emu-params></emu-mods></emu-nt>
+        <emu-t>.</emu-t>
+        <emu-nt><a href="https://tc39.es/ecma262/#prod-IdentifierName">IdentifierName</a></emu-nt>
+    </emu-rhs>
+    <emu-rhs a="xe3ycfgs">
+        <emu-nt params="?Yield, ?Await" id="_ref_19"><a href="#prod-CallExpression">CallExpression</a><emu-mods><emu-params>[?Yield, ?Await]</emu-params></emu-mods></emu-nt>
+        <emu-nt params="?Yield, ?Await, +Tagged"><a href="https://tc39.es/ecma262/#prod-TemplateLiteral">TemplateLiteral</a><emu-mods><emu-params>[?Yield, ?Await, +Tagged]</emu-params></emu-mods></emu-nt>
+    </emu-rhs>
+    <emu-rhs a="62npgx0j">
+        <emu-nt params="?Yield, ?Await" id="_ref_20"><a href="#prod-CallExpression">CallExpression</a><emu-mods><emu-params>[?Yield, ?Await]</emu-params></emu-mods></emu-nt>
+        <emu-t>.</emu-t>
+        <emu-nt>PrivateIdentifier</emu-nt>
+    </emu-rhs>
+</emu-production>
+<ins><emu-production name="ClassBrandCheckCall" params="Yield, Await" id="prod-ClassBrandCheckCall">
+    <emu-nt params="Yield, Await"><a href="#prod-ClassBrandCheckCall">ClassBrandCheckCall</a><emu-mods><emu-params>[Yield, Await]</emu-params></emu-mods></emu-nt> <emu-geq>:</emu-geq> <emu-rhs a="2az_ew2h">
+        <emu-t>class</emu-t>
+        <emu-t>.</emu-t>
+        <emu-t>hasInstance</emu-t>
+        <emu-t>(</emu-t>
+        <emu-nt params="+In, ?Yield, ?Await"><a href="https://tc39.es/ecma262/#prod-AssignmentExpression">AssignmentExpression</a><emu-mods><emu-params>[+In, ?Yield, ?Await]</emu-params></emu-mods></emu-nt>
+        <emu-t>)</emu-t>
+    </emu-rhs>
+</emu-production>
+</ins></emu-grammar>
+
+    <emu-clause id="sec-class-keyword">
+      <h1><span class="secnum">3.1.1</span> The <code>class</code> Keyword</h1>
+      <emu-clause id="sec-class-keyword-runtime-semantics-evaluation">
+        <h1><span class="secnum">3.1.1.1</span> Runtime Semantics: Evalutaion</h1>
+        <emu-grammar><emu-production name="ClassBrandCheckCall">
+    <emu-nt><a href="#prod-ClassBrandCheckCall">ClassBrandCheckCall</a></emu-nt> <emu-geq>:</emu-geq> <emu-rhs a="6ktgryw_">
+        <emu-t>class</emu-t>
+        <emu-t>.</emu-t>
+        <emu-t>hasInstance</emu-t>
+        <emu-t>(</emu-t>
+        <emu-nt><a href="https://tc39.es/ecma262/#prod-AssignmentExpression">AssignmentExpression</a></emu-nt>
+        <emu-t>)</emu-t>
+    </emu-rhs>
+</emu-production>
+</emu-grammar>
+        <emu-alg><ol><li>Let <var>inst</var> be the result of <emu-nt><a href="https://tc39.es/ecma262/#prod-AssignmentExpression">AssignmentExpression</a></emu-nt>.</li><li>If <emu-xref aoid="Type" id="_ref_10"><a href="https://tc39.es/ecma262/#sec-ecmascript-data-types-and-values">Type</a></emu-xref>(<var>inst</var>) is not Object.<ol><li>Return <emu-val>false</emu-val>.</li></ol></li><li>Let <var>ctr</var> be GetConstructor().</li><li>Let <var>brandList</var> be <var>inst</var>.[[BrandList]].</li><li>If <var>brandList</var> includes <var>ctr</var>, then<ol><li>Return <emu-val>true</emu-val>.</li></ol></li><li>Else,<ol><li>Return <emu-val>false</emu-val>.</li></ol></li></ol></emu-alg>
+      </emu-clause>
+      <emu-clause id="sec-get-constructor" type="abstract operation">
+        <h1><span class="secnum">3.1.1.2</span> GetConstructor ( )</h1>
+        <emu-alg><ol><li>Let <var>envRec</var> be <emu-xref aoid="GetThisEnvironment" id="_ref_11"><a href="https://tc39.es/ecma262/#sec-getthisenvironment">GetThisEnvironment</a></emu-xref>().</li><li><emu-xref href="#assert"><a href="https://tc39.es/ecma262/#assert">Assert</a></emu-xref>: <var>envRec</var> is a <emu-xref href="#sec-function-environment-records"><a href="https://tc39.es/ecma262/#sec-function-environment-records">function Environment Record</a></emu-xref>.</li><li>Let <var>activeFunction</var> be <var>envRec</var>.[[FunctionObject]].</li><li><emu-xref href="#assert"><a href="https://tc39.es/ecma262/#assert">Assert</a></emu-xref>: <var>activeFunction</var> is an ECMAScript <emu-xref href="#function-object"><a href="https://tc39.es/ecma262/#function-object">function object</a></emu-xref>.</li><li>Return <var>activeFunction</var>.</li></ol></emu-alg>
+      </emu-clause>
+    </emu-clause>
+  </emu-clause>
 </emu-clause><emu-annex id="sec-copyright-and-software-license">
       <h1><span class="secnum">A</span> Copyright &amp; Software License</h1>
       
