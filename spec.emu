@@ -170,7 +170,7 @@ contributors: Your Name(s) Here
         CallExpression[?Yield, ?Await] `.` PrivateIdentifier
 
       <ins>BrandCheckCall[Yield, Await] :</ins>
-        `class` `.` `hasInstance` `(` AssignmentExpression[+In, ?Yield, ?Await] `)`
+        `class` `.` `hasInstance` `(` AssignmentExpression[+In, ?Yield, ?Await] `,`? `)`
     </emu-grammar>
 
     <emu-clause id="sec-class-keyword">
@@ -179,7 +179,7 @@ contributors: Your Name(s) Here
         <h1>Runtime Semantics: Evalutaion</h1>
         <emu-grammar>
           BrandCheckCall :
-            `class` `.` `hasInstance` `(` AssignmentExpression `)`
+            `class` `.` `hasInstance` `(` AssignmentExpression ','? `)`
         </emu-grammar>
         <emu-alg>
           1. Let _inst_ be the result of |AssignmentExpression|.
