@@ -5,7 +5,7 @@
   "scripts": {
     "start": "npm run build-loose -- --watch",
     "build": "npm run build-loose -- --strict",
-    "build-loose": "ecmarkup --verbose spec.html index.html"
+    "build-loose": "ecmarkup --verbose spec.emu index.html"
   },
   "homepage": "https://github.com/tc39/template-for-proposals#readme",
   "repository": {
