@@ -1,9 +1,33 @@
-# Class brand check
+# `class.hasInstance()`
+
+This proposal adds a `class.hasInstance()` [brand checking](https://github.com/tc39/how-we-work/blob/master/terminology.md#brand-check) syntactic form.
+
+```js
+class C {
+  static isC(o) {
+    return class.hasInstance(o)
+  }
+}
+let c = new C()
+let o = Object.create(c)
+let p = new Proxy(c, {})
+C.isC(c) // true
+C.isC(o) // false
+C.isC(p) // false
+```
 
 Stage: 1
 
+Authors: HE Shi-Jun (@hax), XU Tian-Yang (@XGHeaven)
+
 Champion: HE Shi-Jun
 
+## Implementations
+
+- [Babel](https://github.com/babel/babel/pull/13959) by @YuriTu
+- [TypeScript](https://github.com/microsoft/TypeScript/pull/46578) by @Jack-Works
+
+## Motivation
 
 There is long discussion history of brand check, and various efforts on this area. The recent related proposal is "brand check for private fields". In the discussion of that proposal, the author of https://github.com/tc39/proposal-private-fields-in-in/issues/13 propose an alternative design direction. Instead of duck-type style checking (`#field in obj`), we could provide a much general class brand check (`class.hasInstance(obj)`), a "real" `instanceof` check. In many cases it is much closer to programmer's intension and give a much similar concept model to other class-based OOP programming languages.
 
