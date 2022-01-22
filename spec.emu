@@ -821,9 +821,11 @@ contributors: Your Name(s) Here
         <h1><ins>GetClassConstructor ( )</ins></h1>
         <emu-alg>
           1. Let _envRec_ be GetThisEnvironment().
-          1. Assert: _envRec_ is a function Environment Record.
-          1. If _envRec_.[[HasClassBinding]]() is *true*, Return *empty*.
-          1. Return _envRec_.[[GetClassBinding]]().
+          1. Repeat,
+            1. If _envRec_ is not a Function Environment Record, return *empty*
+            1. If _envRec_.[[HasClassBinding]]() is *true*, Return _envRec_.[[GetClassBinding]]().
+            1. Let _envRec_ be _envRec_.[[OuterEnv]].
+          1. Return *empty*.
         </emu-alg>
       </emu-clause>
     </emu-clause>

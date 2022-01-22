@@ -2828,7 +2828,7 @@ li.menu-search-result-term:before {
       </emu-clause>
       <emu-clause id="sec-get-constructor" type="abstract operation">
         <h1><span class="secnum">5.1.1.2</span> <ins>GetClassConstructor ( )</ins></h1>
-        <emu-alg><ol><li>Let <var>envRec</var> be <emu-xref aoid="GetThisEnvironment" id="_ref_52"><a href="https://tc39.es/ecma262/#sec-getthisenvironment">GetThisEnvironment</a></emu-xref>().</li><li><emu-xref href="#assert"><a href="https://tc39.es/ecma262/#assert">Assert</a></emu-xref>: <var>envRec</var> is a <emu-xref href="#sec-function-environment-records" id="_ref_53"><a href="#sec-function-environment-records">function Environment Record</a></emu-xref>.</li><li>If <var>envRec</var>.[[HasClassBinding]]() is <emu-val>true</emu-val>, Return <emu-val>empty</emu-val>.</li><li>Return <var>envRec</var>.[[GetClassBinding]]().</li></ol></emu-alg>
+        <emu-alg><ol><li>Let <var>envRec</var> be <emu-xref aoid="GetThisEnvironment" id="_ref_52"><a href="https://tc39.es/ecma262/#sec-getthisenvironment">GetThisEnvironment</a></emu-xref>().</li><li>Repeat,<ol><li>If <var>envRec</var> is not a <emu-xref href="#sec-function-environment-records" id="_ref_53"><a href="#sec-function-environment-records">Function Environment Record</a></emu-xref>, return <emu-val>empty</emu-val></li><li>If <var>envRec</var>.[[HasClassBinding]]() is <emu-val>true</emu-val>, Return <var>envRec</var>.[[GetClassBinding]]().</li><li>Let <var>envRec</var> be <var>envRec</var>.[[OuterEnv]].</li></ol></li><li>Return <emu-val>empty</emu-val>.</li></ol></emu-alg>
       </emu-clause>
     </emu-clause>
   </emu-clause>
