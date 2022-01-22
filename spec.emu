@@ -55,7 +55,7 @@ contributors: Your Name(s) Here
       <emu-grammar>ArrowFunction : ArrowParameters `=>` ConciseBody</emu-grammar>
       <emu-alg>
         1. <del>If _symbol_ is not one of |NewTarget|, |SuperProperty|, |SuperCall|, `super` or `this`, return *false*.</del>
-        1. <ins>If _symbol_ is not one of |NewTarget|, |SuperProperty|, |SuperCall|, |BrandCheckCall|, `super` or `this`, return *false*.</ins>
+        1. <ins>If _symbol_ is not one of |NewTarget|, |SuperProperty|, |SuperCall|, |ClassHasInstanceCall|, `super` or `this`, return *false*.</ins>
         1. If |ArrowParameters| Contains _symbol_ is *true*, return *true*.
         1. Return |ConciseBody| Contains _symbol_.
       </emu-alg>
@@ -64,7 +64,7 @@ contributors: Your Name(s) Here
       </emu-grammar>
       <emu-alg>
         1. <del>If _symbol_ is not one of |NewTarget|, |SuperProperty|, |SuperCall|, `super`, or `this`, return *false*.</del>
-        1. <ins>If _symbol_ is not one of |NewTarget|, |SuperProperty|, |SuperCall|, |BrandCheckCall|, `super`, or `this`, return *false*.</ins>
+        1. <ins>If _symbol_ is not one of |NewTarget|, |SuperProperty|, |SuperCall|, |ClassHasInstanceCall|, `super`, or `this`, return *false*.</ins>
         1. Return |AsyncConciseBody| Contains _symbol_.
       </emu-alg>
       <emu-grammar>
@@ -72,7 +72,7 @@ contributors: Your Name(s) Here
       </emu-grammar>
       <emu-alg>
         1. <del>If _symbol_ is not one of |NewTarget|, |SuperProperty|, |SuperCall|, `super`, or `this`, return *false*.</del>
-        1. <ins>If _symbol_ is not one of |NewTarget|, |SuperProperty|, |SuperCall|, |BrandCheckCall|, `super`, or `this`, return *false*.</ins>
+        1. <ins>If _symbol_ is not one of |NewTarget|, |SuperProperty|, |SuperCall|, |ClassHasInstanceCall|, `super`, or `this`, return *false*.</ins>
         1. Let _head_ be the |AsyncArrowHead| that is covered by |CoverCallExpressionAndAsyncArrowHead|.
         1. If _head_ Contains _symbol_ is *true*, return *true*.
         1. Return |AsyncConciseBody| Contains _symbol_.
@@ -92,7 +92,7 @@ contributors: Your Name(s) Here
           ImportCall
           CallExpression Arguments
           CallExpression TemplateLiteral
-          <ins>BrandCheckCall</ins>
+          <ins>ClassHasInstanceCall</ins>
       </emu-grammar>
       <emu-alg>
         1. Return ~invalid~.
@@ -162,14 +162,14 @@ contributors: Your Name(s) Here
         CoverCallExpressionAndAsyncArrowHead[?Yield, ?Await] #callcover
         SuperCall[?Yield, ?Await]
         ImportCall[?Yield, ?Await]
-        <ins>BrandCheckCall[?Yield, ?Await]</ins>
+        <ins>ClassHasInstanceCall[?Yield, ?Await]</ins>
         CallExpression[?Yield, ?Await] Arguments[?Yield, ?Await]
         CallExpression[?Yield, ?Await] `[` Expression[+In, ?Yield, ?Await] `]`
         CallExpression[?Yield, ?Await] `.` IdentifierName
         CallExpression[?Yield, ?Await] TemplateLiteral[?Yield, ?Await, +Tagged]
         CallExpression[?Yield, ?Await] `.` PrivateIdentifier
 
-      <ins>BrandCheckCall[Yield, Await] :</ins>
+      <ins>ClassHasInstanceCall[Yield, Await] :</ins>
         `class` `.` `hasInstance` `(` AssignmentExpression[+In, ?Yield, ?Await] `,`? `)`
     </emu-grammar>
 
@@ -178,7 +178,7 @@ contributors: Your Name(s) Here
       <emu-clause id="sec-class-keyword-runtime-semantics-evaluation">
         <h1>Runtime Semantics: Evalutaion</h1>
         <emu-grammar>
-          BrandCheckCall :
+          ClassHasInstanceCall :
             `class` `.` `hasInstance` `(` AssignmentExpression `,`? `)`
         </emu-grammar>
         <emu-alg>
@@ -247,10 +247,10 @@ contributors: Your Name(s) Here
           It is a Syntax Error if |FunctionBody| Contains |SuperCall| is *true*.
         </li>
         <li>
-          <ins>It is a Syntax Error if |FormalParameters| Contains |BrandCheckCall| is *true*.</ins>
+          <ins>It is a Syntax Error if |FormalParameters| Contains |ClassHasInstanceCall| is *true*.</ins>
         </li>
         <li>
-          <ins>It is a Syntax Error if |FunctionBody| Contains |BrandCheckCall| is *true*.</ins>
+          <ins>It is a Syntax Error if |FunctionBody| Contains |ClassHasInstanceCall| is *true*.</ins>
         </li>
       </ul>
     </emu-clause>
@@ -279,8 +279,8 @@ contributors: Your Name(s) Here
         <li>It is a Syntax Error if |AsyncFunctionBody| Contains |SuperProperty| is *true*.</li>
         <li>It is a Syntax Error if |FormalParameters| Contains |SuperCall| is *true*.</li>
         <li>It is a Syntax Error if |AsyncFunctionBody| Contains |SuperCall| is *true*.</li>
-        <li><ins>It is a Syntax Error if |FormalParameters| Contains |BrandCheckCall| is *true*.</ins></li>
-        <li><ins>It is a Syntax Error if |AsyncFunctionBody| Contains |BrandCheckCall| is *true*.</ins></li>
+        <li><ins>It is a Syntax Error if |FormalParameters| Contains |ClassHasInstanceCall| is *true*.</ins></li>
+        <li><ins>It is a Syntax Error if |AsyncFunctionBody| Contains |ClassHasInstanceCall| is *true*.</ins></li>
       </ul>
     </emu-clause>
   </emu-clause>
@@ -327,10 +327,10 @@ contributors: Your Name(s) Here
           It is a Syntax Error if |GeneratorBody| Contains |SuperCall| is *true*.
         </li>
         <li>
-          <ins>It is a Syntax Error if |FormalParameters| Contains |BrandCheckCall| is *true*.</ins>
+          <ins>It is a Syntax Error if |FormalParameters| Contains |ClassHasInstanceCall| is *true*.</ins>
         </li>
         <li>
-          <ins>It is a Syntax Error if |GeneratorBody| Contains |BrandCheckCall| is *true*.</ins>
+          <ins>It is a Syntax Error if |GeneratorBody| Contains |ClassHasInstanceCall| is *true*.</ins>
         </li>
       </ul>
     </emu-clause>
@@ -359,8 +359,8 @@ contributors: Your Name(s) Here
         <li>It is a Syntax Error if |AsyncGeneratorBody| Contains |SuperProperty| is *true*.</li>
         <li>It is a Syntax Error if |FormalParameters| Contains |SuperCall| is *true*.</li>
         <li>It is a Syntax Error if |AsyncGeneratorBody| Contains |SuperCall| is *true*.</li>
-        <li><ins>It is a Syntax Error if |FormalParameters| Contains |BrandCheckCall| is *true*.</ins></li>
-        <li><ins>It is a Syntax Error if |AsyncGeneratorBody| Contains |BrandCheckCall| is *true*.</ins></li>
+        <li><ins>It is a Syntax Error if |FormalParameters| Contains |ClassHasInstanceCall| is *true*.</ins></li>
+        <li><ins>It is a Syntax Error if |AsyncGeneratorBody| Contains |ClassHasInstanceCall| is *true*.</ins></li>
       </ul>
     </emu-clause>
 
@@ -390,34 +390,34 @@ contributors: Your Name(s) Here
         MethodDefinition : ClassElementName `(` UniqueFormalParameters `)` `{` FunctionBody `}`
       </emu-grammar>
       <emu-alg>
-        1. If |UniqueFormalParameters| Contains |BrandCheckCall| is *true*, return *true*.
-        2. Return |FunctionBody| Contains |BrandCheckCall|.
+        1. If |UniqueFormalParameters| Contains |ClassHasInstanceCall| is *true*, return *true*.
+        2. Return |FunctionBody| Contains |ClassHasInstanceCall|.
       </emu-alg>
       <emu-grammar>MethodDefinition : `get` ClassElementName `(` `)` `{` FunctionBody `}`</emu-grammar>
       <emu-alg>
-        1. Return |FunctionBody| Contains |BrandCheckCall|.
+        1. Return |FunctionBody| Contains |ClassHasInstanceCall|.
       </emu-alg>
       <emu-grammar>MethodDefinition : `set` ClassElementName `(` PropertySetParameterList `)` `{` FunctionBody `}`</emu-grammar>
       <emu-alg>
-        1. If |PropertySetParameterList| Contains |BrandCheckCall| is *true*, return *true*.
-        1. Return |FunctionBody| Contains |BrandCheckCall|.
+        1. If |PropertySetParameterList| Contains |ClassHasInstanceCall| is *true*, return *true*.
+        1. Return |FunctionBody| Contains |ClassHasInstanceCall|.
       </emu-alg>
       <emu-grammar>GeneratorMethod : `*` ClassElementName `(` UniqueFormalParameters `)` `{` GeneratorBody `}`</emu-grammar>
       <emu-alg>
-        1. If |UniqueFormalParameters| Contains |BrandCheckCall| is *true*, return *true*.
-        1. Return |GeneratorBody| Contains |BrandCheckCall|.
+        1. If |UniqueFormalParameters| Contains |ClassHasInstanceCall| is *true*, return *true*.
+        1. Return |GeneratorBody| Contains |ClassHasInstanceCall|.
       </emu-alg>
       <emu-grammar>AsyncGeneratorMethod : `async` `*` ClassElementName `(` UniqueFormalParameters `)` `{` AsyncGeneratorBody `}`</emu-grammar>
       <emu-alg>
-        1. If |UniqueFormalParameters| Contains |BrandCheckCall| is *true*, return *true*.
-        1. Return |AsyncGeneratorBody| Contains |BrandCheckCall|.
+        1. If |UniqueFormalParameters| Contains |ClassHasInstanceCall| is *true*, return *true*.
+        1. Return |AsyncGeneratorBody| Contains |ClassHasInstanceCall|.
       </emu-alg>
       <emu-grammar>
         AsyncMethod : `async` ClassElementName `(` UniqueFormalParameters `)` `{` AsyncFunctionBody `}`
       </emu-grammar>
       <emu-alg>
-        1. If |UniqueFormalParameters| Contains |BrandCheckCall| is *true*, return *true*.
-        1. Return |AsyncFunctionBody| Contains |BrandCheckCall|.
+        1. If |UniqueFormalParameters| Contains |ClassHasInstanceCall| is *true*, return *true*.
+        1. Return |AsyncFunctionBody| Contains |ClassHasInstanceCall|.
       </emu-alg>
       <emu-grammar>
         FieldDefinition : ClassElementName Initializer?
@@ -431,7 +431,7 @@ contributors: Your Name(s) Here
           `=` AssignmentExpression
       </emu-grammar>
       <emu-alg>
-        1. Return |AssignmentExpression| Contains |BrandCheckCall|
+        1. Return |AssignmentExpression| Contains |ClassHasInstanceCall|
       </emu-alg>
     </emu-clause>
 
@@ -586,7 +586,7 @@ contributors: Your Name(s) Here
             It is a Syntax Error if |StatementList| Contains |NewTarget| unless the source code containing |NewTarget| is eval code that is being processed by a direct eval. Additional early error rules for |NewTarget| in direct eval are defined in <emu-xref href="#sec-performeval"></emu-xref>.
           </li>
           <li>
-            <ins>It is a Syntax Error if |StatementList| Contains |BrandCheckCall| unless the source code containing |BrandCheckCall| is eval code that is being processed by a direct eval. Additional early error rules for |BrandCheckCall| in direct eval are defined in <emu-xref href="#sec-performeval"></emu-xref>.</ins>
+            <ins>It is a Syntax Error if |StatementList| Contains |ClassHasInstanceCall| unless the source code containing |ClassHasInstanceCall| is eval code that is being processed by a direct eval. Additional early error rules for |ClassHasInstanceCall| in direct eval are defined in <emu-xref href="#sec-performeval"></emu-xref>.</ins>
           </li>
           <li>
             It is a Syntax Error if ContainsDuplicateLabels of |StatementList| with argument &laquo; &raquo; is *true*.
@@ -631,7 +631,7 @@ contributors: Your Name(s) Here
             It is a Syntax Error if |ModuleItemList| Contains |NewTarget|.
           </li>
           <li>
-            <ins>It is a Syntax Error if |ModuleItemList| Contains |BrandCheckCall|.</ins>
+            <ins>It is a Syntax Error if |ModuleItemList| Contains |ClassHasInstanceCall|.</ins>
           </li>
           <li>
             It is a Syntax Error if ContainsDuplicateLabels of |ModuleItemList| with argument &laquo; &raquo; is *true*.
