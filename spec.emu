@@ -1224,7 +1224,7 @@ contributors: Your Name(s) Here
             It is a Syntax Error if |StatementList| Contains |NewTarget| unless the source code containing |NewTarget| is eval code that is being processed by a direct eval. Additional early error rules for |NewTarget| in direct eval are defined in <emu-xref href="#sec-performeval"></emu-xref>.
           </li>
           <li>
-            <ins>It is a Syntax Error if |StatementList| Contains |ClassHasInstanceCall| unless the source code containing |ClassHasInstanceCall| is eval code that is being processed by a direct eval. Additional early error rules for |ClassHasInstanceCall| in direct eval are defined in <emu-xref href="#sec-performeval"></emu-xref>.</ins>
+            <ins>It is a Syntax Error if |StatementList| Contains |ClassHasInstanceCall|.</ins>
           </li>
           <li>
             It is a Syntax Error if ContainsDuplicateLabels of |StatementList| with argument &laquo; &raquo; is *true*.
