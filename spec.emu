@@ -78,6 +78,7 @@ contributors: Your Name(s) Here
         1. Return |AsyncConciseBody| Contains _symbol_.
       </emu-alg>
     </emu-clause>
+  </emu-clause>
 
   <emu-clause id="sec-syntax-directed-operations-miscellaneous">
     <h1>Miscellaneous</h1>
@@ -101,11 +102,494 @@ contributors: Your Name(s) Here
   </emu-clause>
 </emu-clause>
 
+<emu-clause id="sec-executable-code-and-execution-contexts">
+  <h1>Executable Code and Execution Contexts</h1>
+  <emu-clause id="sec-environment-records" oldids="sec-lexical-environments">
+    <h1>Environment Records</h1>
+    <emu-clause id="sec-the-environment-record-type-hierarchy">
+      <h1>The Environment Record Type Hierarchy</h1>
+      <emu-table id="table-abstract-methods-of-environment-records" caption="Abstract Methods of Environment Records" oldids="table-15">
+        <table>
+          <tbody>
+          <tr>
+            <th>
+              Method
+            </th>
+            <th>
+              Purpose
+            </th>
+          </tr>
+          <tr>
+            <td>
+              HasBinding(N)
+            </td>
+            <td>
+              Determine if an Environment Record has a binding for the String value _N_. Return *true* if it does and *false* if it does not.
+            </td>
+          </tr>
+          <tr>
+            <td>
+              CreateMutableBinding(N, D)
+            </td>
+            <td>
+              Create a new but uninitialized mutable binding in an Environment Record. The String value _N_ is the text of the bound name. If the Boolean argument _D_ is *true* the binding may be subsequently deleted.
+            </td>
+          </tr>
+          <tr>
+            <td>
+              CreateImmutableBinding(N, S)
+            </td>
+            <td>
+              Create a new but uninitialized immutable binding in an Environment Record. The String value _N_ is the text of the bound name. If _S_ is *true* then attempts to set it after it has been initialized will always throw an exception, regardless of the strict mode setting of operations that reference that binding.
+            </td>
+          </tr>
+          <tr>
+            <td>
+              InitializeBinding(N, V)
+            </td>
+            <td>
+              Set the value of an already existing but uninitialized binding in an Environment Record. The String value _N_ is the text of the bound name. _V_ is the value for the binding and is a value of any ECMAScript language type.
+            </td>
+          </tr>
+          <tr>
+            <td>
+              SetMutableBinding(N, V, S)
+            </td>
+            <td>
+              Set the value of an already existing mutable binding in an Environment Record. The String value _N_ is the text of the bound name. _V_ is the value for the binding and may be a value of any ECMAScript language type. _S_ is a Boolean flag. If _S_ is *true* and the binding cannot be set throw a *TypeError* exception.
+            </td>
+          </tr>
+          <tr>
+            <td>
+              GetBindingValue(N, S)
+            </td>
+            <td>
+              Returns the value of an already existing binding from an Environment Record. The String value _N_ is the text of the bound name. _S_ is used to identify references originating in strict mode code or that otherwise require strict mode reference semantics. If _S_ is *true* and the binding does not exist throw a *ReferenceError* exception. If the binding exists but is uninitialized a *ReferenceError* is thrown, regardless of the value of _S_.
+            </td>
+          </tr>
+          <tr>
+            <td>
+              DeleteBinding(N)
+            </td>
+            <td>
+              Delete a binding from an Environment Record. The String value _N_ is the text of the bound name. If a binding for _N_ exists, remove the binding and return *true*. If the binding exists but cannot be removed return *false*. If the binding does not exist return *true*.
+            </td>
+          </tr>
+          <tr>
+            <td>
+              HasThisBinding()
+            </td>
+            <td>
+              Determine if an Environment Record establishes a `this` binding. Return *true* if it does and *false* if it does not.
+            </td>
+          </tr>
+          <tr>
+            <td>
+              HasSuperBinding()
+            </td>
+            <td>
+              Determine if an Environment Record establishes a `super` method binding. Return *true* if it does and *false* if it does not.
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <ins>HasClassBinding()</ins>
+            </td>
+            <td>
+              <ins>Determine if an Environment Record establishes a `class` method binding. Return *true* if it does and *false* if it does not.</ins>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              WithBaseObject()
+            </td>
+            <td>
+              If this Environment Record is associated with a `with` statement, return the with object. Otherwise, return *undefined*.
+            </td>
+          </tr>
+          </tbody>
+        </table>
+      </emu-table>
+
+      <emu-clause id="sec-declarative-environment-records">
+        <h1>Declarative Environment Records</h1>
+        <emu-clause id="sec-declarative-environment-records-hassuperbinding" type="concrete method">
+          <h1><ins>HasClassBinding ( )</ins></h1>
+          <p>
+            Regular declarative Environment Records do not provide a class binding.
+          </p>
+          <emu-alg>
+            1. Return *false*.
+          </emu-alg>
+        </emu-clause>
+      </emu-clause>
+
+      <emu-clause id="sec-object-environment-records">
+        <h1>Object Environment Records</h1>
+        <emu-clause id="sec-declarative-environment-records-hassuperbinding" type="concrete method">
+          <h1><ins>HasClassBinding ( )</ins></h1>
+          <p>
+            Regular declarative Environment Records do not provide a class binding.
+          </p>
+          <emu-alg>
+            1. Return *false*.
+          </emu-alg>
+        </emu-clause>
+      </emu-clause>
+
+      <emu-clause id="sec-function-environment-records" oldids="function-environment">
+        <h1>Function Environment Records</h1>
+        <p>A <dfn>function Environment Record</dfn> is a declarative Environment Record that is used to represent the top-level scope of a function and, if the function is not an |ArrowFunction|, provides a `this` binding. If a function is not an |ArrowFunction| function and references `super`, its function Environment Record also contains the state that is used to perform `super` method invocations from within the function.<ins> If a function is not an |ArrowFunction| function and references `class`, its function Environment Record also contains the state that is used to perform `class` property acccess from within the function.</ins></p>
+        <p>Function Environment Records have the additional state fields listed in <emu-xref href="#table-additional-fields-of-function-environment-records"></emu-xref>.</p>
+        <emu-table id="table-additional-fields-of-function-environment-records" caption="Additional Fields of Function Environment Records" oldids="table-16">
+          <table>
+            <tbody>
+            <tr>
+              <th>
+                Field Name
+              </th>
+              <th>
+                Value
+              </th>
+              <th>
+                Meaning
+              </th>
+            </tr>
+            <tr>
+              <td>
+                [[ThisValue]]
+              </td>
+              <td>
+                Any
+              </td>
+              <td>
+                This is the *this* value used for this invocation of the function.
+              </td>
+            </tr>
+            <tr>
+              <td>
+                [[ThisBindingStatus]]
+              </td>
+              <td>
+                ~lexical~ | ~initialized~ | ~uninitialized~
+              </td>
+              <td>
+                If the value is ~lexical~, this is an |ArrowFunction| and does not have a local *this* value.
+              </td>
+            </tr>
+            <tr>
+              <td>
+                [[FunctionObject]]
+              </td>
+              <td>
+                Object
+              </td>
+              <td>
+                The function object whose invocation caused this Environment Record to be created.
+              </td>
+            </tr>
+            <tr>
+              <td>
+                [[HomeObject]]
+              </td>
+              <td>
+                Object | *undefined*
+              </td>
+              <td>
+                If the associated function has `super` property accesses and is not an |ArrowFunction|, [[HomeObject]] is the object that the function is bound to as a method. The default value for [[HomeObject]] is *undefined*.
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <ins>[[InitialClassObject]]</ins>
+              </td>
+              <td>
+                <ins>Object | *undefined*</ins>
+              </td>
+              <td>
+                <ins>If the associated function has `class` property access and is not an |ArrowFunction|, [[InitialClassObject]] is the class constructor function object that the function was initially bound to as a method. The default value for [[InitialClassObject]] is *undefined*.</ins>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                [[NewTarget]]
+              </td>
+              <td>
+                Object | *undefined*
+              </td>
+              <td>
+                If this Environment Record was created by the [[Construct]] internal method, [[NewTarget]] is the value of the [[Construct]] _newTarget_ parameter. Otherwise, its value is *undefined*.
+              </td>
+            </tr>
+            </tbody>
+          </table>
+        </emu-table>
+        <p>Function Environment Records support all of the declarative Environment Record methods listed in <emu-xref href="#table-abstract-methods-of-environment-records"></emu-xref> and share the same specifications for all of those methods except for HasThisBinding<del> and HasSuperBinding</del><ins>, HasSuperBinding, and HasClassBinding</ins>. In addition, function Environment Records support the methods listed in <emu-xref href="#table-additional-methods-of-function-environment-records"></emu-xref>:</p>
+        <emu-table id="table-additional-methods-of-function-environment-records" caption="Additional Methods of Function Environment Records" oldids="table-17">
+          <table>
+            <tbody>
+            <tr>
+              <th>
+                Method
+              </th>
+              <th>
+                Purpose
+              </th>
+            </tr>
+            <tr>
+              <td>
+                BindThisValue(V)
+              </td>
+              <td>
+                Set the [[ThisValue]] and record that it has been initialized.
+              </td>
+            </tr>
+            <tr>
+              <td>
+                GetThisBinding()
+              </td>
+              <td>
+                Return the value of this Environment Record's `this` binding. Throws a *ReferenceError* if the `this` binding has not been initialized.
+              </td>
+            </tr>
+            <tr>
+              <td>
+                GetSuperBase()
+              </td>
+              <td>
+                Return the object that is the base for `super` property accesses bound in this Environment Record. The object is derived from this Environment Record's [[HomeObject]] field. The value *undefined* indicates that `super` property accesses will produce runtime errors.
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <ins>GetClassBinding()</ins>
+              </td>
+              <td>
+                <ins>Return the object that is the base for `class` property accesses bound in this Environment Record. The object is derived from this Environment Record's [[InitialClassObject]] field. The value *undefined* indicates that `class` property accesses will produce runtime errors.</ins>
+              </td>
+            </tr>
+            </tbody>
+          </table>
+        </emu-table>
+        <p>The behaviour of the additional concrete specification methods for function Environment Records is defined by the following algorithms:</p>
+
+        <emu-clause id="sec-function-environment-records-hasclassbinding">
+          <h1><ins>HasClassBinding ( )</ins></h1>
+          <emu-alg>
+            1. Let _envRec_ be the function Environment Record for which the method was invoked.
+            1. If _envRec_.[[ThisBindingStatus]] is ~lexical~, return *false*.
+            1. If _envRec_.[[InitialClassObject]] has the value *undefined*, return *false*; otherwise, return *true*.
+          </emu-alg>
+        </emu-clause>
+
+        <emu-clause id="sec-getclassbinding">
+          <h1><ins>GetClassBinding ( )</ins></h1>
+          <emu-alg>
+            1. Let _envRec_ be the function Environment Record for which the method was invoked.
+            1. Let _classObject_ be _envRec_.[[InitialClassObject]].
+            1. If _classObject_ has the value *undefined*, return *undefined*.
+            1. Assert: Type(_classObject_) is Object.
+            1. Return ? _classObject_.
+          </emu-alg>
+        </emu-clause>
+      </emu-clause>
+
+      <emu-clause id="sec-global-environment-records">
+        <h1>Global Environment Records</h1>
+
+        <emu-clause id="sec-global-environment-records-hasclassbinding">
+          <h1><ins>HasClassBinding ( )</ins></h1>
+          <emu-alg>
+            1. Return *false*.
+          </emu-alg>
+        </emu-clause>
+
+      </emu-clause>
+
+    </emu-clause>
+    <emu-clause id="sec-environment-record-operations" oldids="sec-lexical-environment-operations">
+      <h1>Environment Record Operations</h1>
+
+      <emu-clause id="sec-newfunctionenvironment" aoid="NewFunctionEnvironment">
+        <h1>NewFunctionEnvironment ( _F_, _newTarget_ )</h1>
+        <p>The abstract operation NewFunctionEnvironment takes arguments _F_ and _newTarget_. It performs the following steps when called:</p>
+        <emu-alg>
+          1. Assert: _F_ is an ECMAScript function.
+          1. Assert: Type(_newTarget_) is Undefined or Object.
+          1. Let _env_ be a new function Environment Record containing no bindings.
+          1. Set _env_.[[FunctionObject]] to _F_.
+          1. If _F_.[[ThisMode]] is ~lexical~, set _env_.[[ThisBindingStatus]] to ~lexical~.
+          1. Else, set _env_.[[ThisBindingStatus]] to ~uninitialized~.
+          1. Let _home_ be _F_.[[HomeObject]].
+          1. Set _env_.[[HomeObject]] to _home_.
+          1. <ins>Let _classObject_ be _F_.[[InitialClassObject]].</ins>
+          1. <ins>Set _env_.[[InitialClassObject]] to _classObject_.</ins>
+          1. Set _env_.[[NewTarget]] to _newTarget_.
+          1. Set _env_.[[OuterEnv]] to _F_.[[Environment]].
+          1. Return _env_.
+        </emu-alg>
+      </emu-clause>
+    </emu-clause>
+  </emu-clause>
+</emu-clause>
+
 <emu-clause id="sec-ordinary-and-exotic-objects-behaviours">
   <h1>Ordinary and Exotic Objects Behaviours</h1>
 
   <emu-clause id="sec-ecmascript-function-objects">
     <h1>ECMAScript Function Objects</h1>
+
+    <p>ECMAScript function objects encapsulate parameterized ECMAScript code closed over a lexical environment and support the dynamic evaluation of that code. An ECMAScript function object is an ordinary object and has the same internal slots and the same internal methods as other ordinary objects. The code of an ECMAScript function object may be either strict mode code (<emu-xref href="#sec-strict-mode-code"></emu-xref>) or non-strict code. An ECMAScript function object whose code is strict mode code is called a <dfn id="strict-function">strict function</dfn>. One whose code is not strict mode code is called a <dfn id="non-strict-function">non-strict function</dfn>.</p>
+    <p>In addition to [[Extensible]] and [[Prototype]], ECMAScript function objects also have the internal slots listed in <emu-xref href="#table-internal-slots-of-ecmascript-function-objects"></emu-xref>.</p>
+    <emu-table id="table-internal-slots-of-ecmascript-function-objects" caption="Internal Slots of ECMAScript Function Objects" oldids="table-27">
+      <table>
+        <tbody>
+        <tr>
+          <th>
+            Internal Slot
+          </th>
+          <th>
+            Type
+          </th>
+          <th>
+            Description
+          </th>
+        </tr>
+        <tr>
+          <td>
+            [[Environment]]
+          </td>
+          <td>
+            Environment Record
+          </td>
+          <td>
+            The Environment Record that the function was closed over. Used as the outer environment when evaluating the code of the function.
+          </td>
+        </tr>
+        <tr>
+          <td>
+            [[FormalParameters]]
+          </td>
+          <td>
+            Parse Node
+          </td>
+          <td>
+            The root parse node of the source text that defines the function's formal parameter list.
+          </td>
+        </tr>
+        <tr>
+          <td>
+            [[ECMAScriptCode]]
+          </td>
+          <td>
+            Parse Node
+          </td>
+          <td>
+            The root parse node of the source text that defines the function's body.
+          </td>
+        </tr>
+        <tr>
+          <td>
+            [[ConstructorKind]]
+          </td>
+          <td>
+            ~base~ | ~derived~
+          </td>
+          <td>
+            Whether or not the function is a derived class constructor.
+          </td>
+        </tr>
+        <tr>
+          <td>
+            [[Realm]]
+          </td>
+          <td>
+            Realm Record
+          </td>
+          <td>
+            The realm in which the function was created and which provides any intrinsic objects that are accessed when evaluating the function.
+          </td>
+        </tr>
+        <tr>
+          <td>
+            [[ScriptOrModule]]
+          </td>
+          <td>
+            Script Record or Module Record
+          </td>
+          <td>
+            The script or module in which the function was created.
+          </td>
+        </tr>
+        <tr>
+          <td>
+            [[ThisMode]]
+          </td>
+          <td>
+            ~lexical~ | ~strict~ | ~global~
+          </td>
+          <td>
+            Defines how `this` references are interpreted within the formal parameters and code body of the function. ~lexical~ means that `this` refers to the *this* value of a lexically enclosing function. ~strict~ means that the *this* value is used exactly as provided by an invocation of the function. ~global~ means that a *this* value of *undefined* or *null* is interpreted as a reference to the global object, and any other *this* value is first passed to ToObject.
+          </td>
+        </tr>
+        <tr>
+          <td>
+            [[Strict]]
+          </td>
+          <td>
+            Boolean
+          </td>
+          <td>
+            *true* if this is a strict function, *false* if this is a non-strict function.
+          </td>
+        </tr>
+        <tr>
+          <td>
+            [[HomeObject]]
+          </td>
+          <td>
+            Object
+          </td>
+          <td>
+            If the function uses `super`, this is the object whose [[GetPrototypeOf]] provides the object where `super` property lookups begin.
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <ins>[[InitialClassObject]]</ins>
+          </td>
+          <td>
+            <ins>Object | *undefined*</ins>
+          </td>
+          <td>
+            <ins>If the function has `class` property access, this is the function object where `class` property lookups begin.</ins>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            [[SourceText]]
+          </td>
+          <td>
+            sequence of Unicode code points
+          </td>
+          <td>
+            The <emu-xref href="#sec-source-text">source text</emu-xref> that defines the function.
+          </td>
+        </tr>
+        <tr>
+          <td>
+            [[IsClassConstructor]]
+          </td>
+          <td>
+            Boolean
+          </td>
+          <td>
+            Indicates whether the function is a class constructor. (If *true*, invoking the function's [[Call]] will immediately throw a *TypeError* exception.)
+          </td>
+        </tr>
+        </tbody>
+      </table>
+    </emu-table>
 
     <emu-clause id="sec-ecmascript-function-objects-construct-argumentslist-newtarget" type="internal method">
       <h1>
@@ -148,6 +632,47 @@ contributors: Your Name(s) Here
         1. <ins>Return _currentThis_.</ins>
       </emu-alg>
     </emu-clause>
+
+    <emu-clause id="sec-ordinaryfunctioncreate" aoid="OrdinaryFunctionCreate" oldids="sec-functionallocate,sec-functioninitialize,sec-functioncreate,sec-generatorfunctioncreate,sec-asyncgeneratorfunctioncreate,sec-async-functions-abstract-operations-async-function-create">
+      <h1>OrdinaryFunctionCreate ( _functionPrototype_, _sourceText_, _ParameterList_, _Body_, _thisMode_, _Scope_ )</h1>
+      <p>The abstract operation OrdinaryFunctionCreate takes arguments _functionPrototype_ (an Object), _sourceText_ (a sequence of Unicode code points), _ParameterList_ (a Parse Node), _Body_ (a Parse Node), _thisMode_ (either ~lexical-this~ or ~non-lexical-this~), and _Scope_ (an Environment Record). _sourceText_ is the source text of the syntactic definition of the function to be created. It performs the following steps when called:</p>
+      <emu-alg>
+        1. Assert: Type(_functionPrototype_) is Object.
+        1. Let _internalSlotsList_ be the internal slots listed in <emu-xref href="#table-internal-slots-of-ecmascript-function-objects"></emu-xref>.
+        1. Let _F_ be ! OrdinaryObjectCreate(_functionPrototype_, _internalSlotsList_).
+        1. Set _F_.[[Call]] to the definition specified in <emu-xref href="#sec-ecmascript-function-objects-call-thisargument-argumentslist"></emu-xref>.
+        1. Set _F_.[[SourceText]] to _sourceText_.
+        1. Set _F_.[[FormalParameters]] to _ParameterList_.
+        1. Set _F_.[[ECMAScriptCode]] to _Body_.
+        1. If the source text matching _Body_ is strict mode code, let _Strict_ be *true*; else let _Strict_ be *false*.
+        1. Set _F_.[[Strict]] to _Strict_.
+        1. If _thisMode_ is ~lexical-this~, set _F_.[[ThisMode]] to ~lexical~.
+        1. Else if _Strict_ is *true*, set _F_.[[ThisMode]] to ~strict~.
+        1. Else, set _F_.[[ThisMode]] to ~global~.
+        1. Set _F_.[[IsClassConstructor]] to *false*.
+        1. Set _F_.[[Environment]] to _Scope_.
+        1. Set _F_.[[ScriptOrModule]] to GetActiveScriptOrModule().
+        1. Set _F_.[[Realm]] to the current Realm Record.
+        1. Set _F_.[[HomeObject]] to *undefined*.
+        1. <ins>Set _F_.[[InitialClassObject]] to *undefined*.</ins>
+        1. Let _len_ be the ExpectedArgumentCount of _ParameterList_.
+        1. Perform ! SetFunctionLength(_F_, _len_).
+        1. Return _F_.
+      </emu-alg>
+    </emu-clause>
+
+    <emu-clause id="sec-makemethod" aoid="MakeMethod">
+      <h1>MakeMethod ( _F_, _homeObject_<ins>, _classObject_</ins> )</h1>
+      <p>The abstract operation MakeMethod takes arguments _F_<del> and _homeObject_</del><ins>, _homeObject_, and _classObject_</ins>. It configures _F_ as a method. It performs the following steps when called:</p>
+      <emu-alg>
+        1. Assert: _F_ is an ECMAScript function object.
+        1. Assert: Type(_homeObject_) is Object.
+        1. Assert: Type(_classObject_) is either Object or Undefined.
+        1. Set _F_.[[HomeObject]] to _homeObject_.
+        1. <ins>Set _F_.[[InitialClassObject]] to _classObject_.</ins>
+        1. Return NormalCompletion(*undefined*).
+      </emu-alg>
+    </emu-clause>
   </emu-clause>
 </emu-clause>
 
@@ -185,7 +710,8 @@ contributors: Your Name(s) Here
           1. Let _inst_ be the result of |AssignmentExpression|.
           1. If Type(_inst_) is not Object.
             1. Return *false*.
-          1. Let _F_ be GetConstructor().
+          1. Let _F_ be GetClassConstructor().
+          1. If _F_ is *empty*, Return *false*.
           1. If _F_.[[Brand]] is ~empty~, Return *false*.
           1. If _inst_.[[Brands]] includes _F_.[[Brand]], then
             1. Return *true*.
@@ -194,13 +720,12 @@ contributors: Your Name(s) Here
         </emu-alg>
       </emu-clause>
       <emu-clause id="sec-get-constructor" type="abstract operation">
-        <h1>GetConstructor ( )</h1>
+        <h1><ins>GetClassConstructor ( )</ins></h1>
         <emu-alg>
           1. Let _envRec_ be GetThisEnvironment().
           1. Assert: _envRec_ is a function Environment Record.
-          1. Let _activeFunction_ be _envRec_.[[FunctionObject]].
-          1. Assert: _activeFunction_ is an ECMAScript function object.
-          1. Return _activeFunction_.
+          1. If _envRec_.[[HasClassBinding]]() is *true*, Return *empty*.
+          1. Return _envRec_.[[GetClassBinding]]().
         </emu-alg>
       </emu-clause>
     </emu-clause>
@@ -209,6 +734,7 @@ contributors: Your Name(s) Here
 
 <emu-clause id="sec-ecmascript-language-functions-and-classes">
   <h1>ECMAScript Language: Functions and Classes</h1>
+
   <emu-clause id="sec-function-definitions">
     <h1>Function Definitions</h1>
     <emu-clause id="sec-function-definitions-static-semantics-early-errors">
@@ -283,6 +809,110 @@ contributors: Your Name(s) Here
         <li><ins>It is a Syntax Error if |AsyncFunctionBody| Contains |ClassHasInstanceCall| is *true*.</ins></li>
       </ul>
     </emu-clause>
+  </emu-clause>
+
+  <emu-clause id="sec-method-definitions">
+    <h1>Method Definitions</h1>
+    <emu-clause id="sec-runtime-semantics-definemethod">
+      <h1>Runtime Semantics: DefineMethod</h1>
+      <p>With parameter _object_ and optional <del>parameter _functionPrototype_</del><ins>parameters _functionPrototype_ and _classObject_</ins>.</p>
+      <emu-grammar>MethodDefinition : PropertyName `(` UniqueFormalParameters `)` `{` FunctionBody `}`</emu-grammar>
+      <emu-alg>
+        1. Let _propKey_ be the result of evaluating |PropertyName|.
+        1. ReturnIfAbrupt(_propKey_).
+        1. Let _scope_ be the running execution context's LexicalEnvironment.
+        1. If _functionPrototype_ is present, then
+          1. Let _prototype_ be _functionPrototype_.
+        1. Else,
+          1. Let _prototype_ be %Function.prototype%.
+        1. Let _sourceText_ be the source text matched by |MethodDefinition|.
+        1. Let _closure_ be OrdinaryFunctionCreate(_prototype_, _sourceText_, |UniqueFormalParameters|, |FunctionBody|, ~non-lexical-this~, _scope_).
+        1. Perform MakeMethod(_closure_, _object_<ins>, _classObject_</ins>).
+        1. Return the Record { [[Key]]: _propKey_, [[Closure]]: _closure_ }.
+      </emu-alg>
+    </emu-clause>
+
+    <emu-clause id="sec-runtime-semantics-methoddefinitionevaluation" oldids="sec-method-definitions-runtime-semantics-propertydefinitionevaluation,sec-generator-function-definitions-runtime-semantics-propertydefinitionevaluation,sec-asyncgenerator-definitions-propertydefinitionevaluation,sec-async-function-definitions-PropertyDefinitionEvaluation" type="sdo" aoid="MethodDefinitionEvaluation">
+      <h1>Runtime Semantics: MethodDefinitionEvaluation</h1>
+      <p>With parameters _object_<del> and _enumerable_</del><ins>, _enumerable_ and optional parameter _classObject_</ins>.</p>
+      <emu-grammar>MethodDefinition : PropertyName `(` UniqueFormalParameters `)` `{` FunctionBody `}`</emu-grammar>
+      <emu-alg>
+        1. Let _methodDef_ be ? DefineMethod of |MethodDefinition| with <del>argument _object_</del><ins>arguments _object_, *undefined* and _classObject_</ins>.
+        1. Perform SetFunctionName(_methodDef_.[[Closure]], _methodDef_.[[Key]]).
+        1. Let _desc_ be the PropertyDescriptor { [[Value]]: _methodDef_.[[Closure]], [[Writable]]: *true*, [[Enumerable]]: _enumerable_, [[Configurable]]: *true* }.
+        1. Return ? DefinePropertyOrThrow(_object_, _methodDef_.[[Key]], _desc_).
+      </emu-alg>
+      <emu-grammar>MethodDefinition : `get` PropertyName `(` `)` `{` FunctionBody `}`</emu-grammar>
+      <emu-alg>
+        1. Let _propKey_ be the result of evaluating |PropertyName|.
+        1. ReturnIfAbrupt(_propKey_).
+        1. Let _scope_ be the running execution context's LexicalEnvironment.
+        1. Let _sourceText_ be the source text matched by |MethodDefinition|.
+        1. Let _formalParameterList_ be an instance of the production <emu-grammar>FormalParameters : [empty]</emu-grammar>.
+        1. Let _closure_ be OrdinaryFunctionCreate(%Function.prototype%, _sourceText_, _formalParameterList_, |FunctionBody|, ~non-lexical-this~, _scope_).
+        1. Perform MakeMethod(_closure_, _object_<ins>, _classObject_</ins>).
+        1. Perform SetFunctionName(_closure_, _propKey_, *"get"*).
+        1. Let _desc_ be the PropertyDescriptor { [[Get]]: _closure_, [[Enumerable]]: _enumerable_, [[Configurable]]: *true* }.
+        1. Return ? DefinePropertyOrThrow(_object_, _propKey_, _desc_).
+      </emu-alg>
+      <emu-grammar>MethodDefinition : `set` PropertyName `(` PropertySetParameterList `)` `{` FunctionBody `}`</emu-grammar>
+      <emu-alg>
+        1. Let _propKey_ be the result of evaluating |PropertyName|.
+        1. ReturnIfAbrupt(_propKey_).
+        1. Let _scope_ be the running execution context's LexicalEnvironment.
+        1. Let _sourceText_ be the source text matched by |MethodDefinition|.
+        1. Let _closure_ be OrdinaryFunctionCreate(%Function.prototype%, _sourceText_, |PropertySetParameterList|, |FunctionBody|, ~non-lexical-this~, _scope_).
+        1. Perform MakeMethod(_closure_, _object_<ins>, _classObject_</ins>).
+        1. Perform SetFunctionName(_closure_, _propKey_, *"set"*).
+        1. Let _desc_ be the PropertyDescriptor { [[Set]]: _closure_, [[Enumerable]]: _enumerable_, [[Configurable]]: *true* }.
+        1. Return ? DefinePropertyOrThrow(_object_, _propKey_, _desc_).
+      </emu-alg>
+      <emu-grammar>GeneratorMethod : `*` PropertyName `(` UniqueFormalParameters `)` `{` GeneratorBody `}`</emu-grammar>
+      <emu-alg>
+        1. Let _propKey_ be the result of evaluating |PropertyName|.
+        1. ReturnIfAbrupt(_propKey_).
+        1. Let _scope_ be the running execution context's LexicalEnvironment.
+        1. Let _sourceText_ be the source text matched by |GeneratorMethod|.
+        1. Let _closure_ be OrdinaryFunctionCreate(%GeneratorFunction.prototype%, _sourceText_, |UniqueFormalParameters|, |GeneratorBody|, ~non-lexical-this~, _scope_).
+        1. Perform MakeMethod(_closure_, _object_<ins>, _classObject_</ins>).
+        1. Perform SetFunctionName(_closure_, _propKey_).
+        1. Let _prototype_ be ! OrdinaryObjectCreate(%GeneratorFunction.prototype.prototype%).
+        1. Perform DefinePropertyOrThrow(_closure_, *"prototype"*, PropertyDescriptor { [[Value]]: _prototype_, [[Writable]]: *true*, [[Enumerable]]: *false*, [[Configurable]]: *false* }).
+        1. Let _desc_ be the PropertyDescriptor { [[Value]]: _closure_, [[Writable]]: *true*, [[Enumerable]]: _enumerable_, [[Configurable]]: *true* }.
+        1. Return ? DefinePropertyOrThrow(_object_, _propKey_, _desc_).
+      </emu-alg>
+      <emu-grammar>
+        AsyncGeneratorMethod : `async` `*` PropertyName `(` UniqueFormalParameters `)` `{` AsyncGeneratorBody `}`
+      </emu-grammar>
+      <emu-alg>
+        1. Let _propKey_ be the result of evaluating |PropertyName|.
+        1. ReturnIfAbrupt(_propKey_).
+        1. Let _scope_ be the running execution context's LexicalEnvironment.
+        1. Let _sourceText_ be the source text matched by |AsyncGeneratorMethod|.
+        1. Let _closure_ be ! OrdinaryFunctionCreate(%AsyncGeneratorFunction.prototype%, _sourceText_, |UniqueFormalParameters|, |AsyncGeneratorBody|, ~non-lexical-this~, _scope_).
+        1. Perform ! MakeMethod(_closure_, _object_<ins>, _classObject_</ins>).
+        1. Perform ! SetFunctionName(_closure_, _propKey_).
+        1. Let _prototype_ be ! OrdinaryObjectCreate(%AsyncGeneratorFunction.prototype.prototype%).
+        1. Perform ! DefinePropertyOrThrow(_closure_, *"prototype"*, PropertyDescriptor { [[Value]]: _prototype_, [[Writable]]: *true*, [[Enumerable]]: *false*, [[Configurable]]: *false* }).
+        1. Let _desc_ be PropertyDescriptor { [[Value]]: _closure_, [[Writable]]: *true*, [[Enumerable]]: _enumerable_, [[Configurable]]: *true* }.
+        1. Return ? DefinePropertyOrThrow(_object_, _propKey_, _desc_).
+      </emu-alg>
+      <emu-grammar>
+        AsyncMethod : `async` PropertyName `(` UniqueFormalParameters `)` `{` AsyncFunctionBody `}`
+      </emu-grammar>
+      <emu-alg>
+        1. Let _propKey_ be the result of evaluating |PropertyName|.
+        1. ReturnIfAbrupt(_propKey_).
+        1. Let _scope_ be the LexicalEnvironment of the running execution context.
+        1. Let _sourceText_ be the source text matched by |AsyncMethod|.
+        1. Let _closure_ be ! OrdinaryFunctionCreate(%AsyncFunction.prototype%, _sourceText_, |UniqueFormalParameters|, |AsyncFunctionBody|, ~non-lexical-this~, _scope_).
+        1. Perform ! MakeMethod(_closure_, _object_<ins>, _classObject_</ins>).
+        1. Perform ! SetFunctionName(_closure_, _propKey_).
+        1. Let _desc_ be the PropertyDescriptor { [[Value]]: _closure_, [[Writable]]: *true*, [[Enumerable]]: _enumerable_, [[Configurable]]: *true* }.
+        1. Return ? DefinePropertyOrThrow(_object_, _propKey_, _desc_).
+      </emu-alg>
+    </emu-clause>
+
   </emu-clause>
 
   <emu-clause id="sec-generator-function-definitions">
