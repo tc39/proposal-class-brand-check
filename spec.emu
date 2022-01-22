@@ -998,6 +998,14 @@ contributors: Your Name(s) Here
 
   <emu-clause id="sec-class-definitions">
     <h1>Class Definitions</h1>
+
+    <p>
+      <ins>
+        All class objects have an internal slot [[Brand]].
+        Which is a unique value across realm represent for class brand.
+      </ins>
+    </p>
+
     <emu-clause id="sec-semantics-containsclassbrandcheck">
       <h1><ins>Static Semantics: ContainsClassBrandCheck</ins></h1>
       <emu-grammar>

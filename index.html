@@ -2939,6 +2939,14 @@ li.menu-search-result-term:before {
 
   <emu-clause id="sec-class-definitions">
     <h1><span class="secnum">6.6</span> Class Definitions</h1>
+
+    <p>
+      <ins>
+        All class objects have an internal slot [[Brand]].
+        Which is a unique value across <emu-xref href="#realm"><a href="https://tc39.es/ecma262/#realm">realm</a></emu-xref> represent for class brand.
+      </ins>
+    </p>
+
     <emu-clause id="sec-semantics-containsclassbrandcheck">
       <h1><span class="secnum">6.6.1</span> <ins>Static Semantics: ContainsClassBrandCheck</ins></h1>
       <emu-grammar><emu-production name="ClassElement" id="prod-ClassElement">
