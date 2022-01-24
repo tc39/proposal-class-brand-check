@@ -5,7 +5,7 @@
 <script src="./spec.js"></script>
 <pre class="metadata">
 title: ECMAScript class brand check proposal
-stage: -1
+stage: 1
 contributors: HE Shi-Jun, XU Tian-Yang, Tu Qiang
 </pre>
 
