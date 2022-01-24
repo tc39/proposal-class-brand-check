@@ -1,6 +1,6 @@
 # `class.hasInstance()`
 
-This proposal adds a `class.hasInstance()` [brand checking](https://github.com/tc39/how-we-work/blob/master/terminology.md#brand-check) syntactic form.
+This proposal adds a `class.hasInstance()` [brand checking](https://github.com/tc39/how-we-work/blob/master/terminology.md#brand-check) syntactic form for ECMAScript code classes.
 
 ```js
 class C {
@@ -20,9 +20,9 @@ Stage: 1
 
 Authors: HE Shi-Jun (@hax), XU Tian-Yang (@XGHeaven), Tu Qiang(@YuriTu)
 
-Champion: HE Shi-Jun, XU Tian-Yang, Tu Qiang
+Champions: HE Shi-Jun, XU Tian-Yang, Tu Qiang
 
-## Implementations
+## Experimental Implementations
 
 - [Babel](https://github.com/babel/babel/pull/13959) by @YuriTu
 - [TypeScript](https://github.com/microsoft/TypeScript/pull/46578) by @Jack-Works
