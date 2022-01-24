@@ -19,7 +19,7 @@ contributors: HE Shi-Jun, XU Tian-Yang, Tu Qiang
         <h1>Object Internal Methods and Internal Slots</h1>
         <p>
           <ins>
-            All objects have an internal slot named [[Brands]],
+            All objects have an internal slot named [[ClassBrands]],
             which is a List of class brand.
             Initially, it is an empty List.
           </ins>
@@ -725,7 +725,7 @@ contributors: HE Shi-Jun, XU Tian-Yang, Tu Qiang
           1. If _result_.[[Value]] is not *undefined*, throw a *TypeError* exception.
         1. Else, ReturnIfAbrupt(_result_).
         1. <ins>Let _currentThis_ be ? _constructorEnv_.GetThisBinding().</ins>
-        1. <ins>If _F_.[[Brand]] is not ~empty~, then append _F_.[[Brand]] to _currentThis_.[[Brands]]</ins>
+        1. <ins>If _F_.[[Brand]] is not ~empty~, then append _F_.[[Brand]] to _currentThis_.[[ClassBrands]]</ins>
         1. <del>Return ? _constructorEnv_.GetThisBinding().</del>
         1. <ins>Return _currentThis_.</ins>
       </emu-alg>
@@ -811,7 +811,7 @@ contributors: HE Shi-Jun, XU Tian-Yang, Tu Qiang
           1. Let _F_ be GetClassConstructor().
           1. If _F_ is *empty*, Return *false*.
           1. If _F_.[[Brand]] is ~empty~, Return *false*.
-          1. If _inst_.[[Brands]] includes _F_.[[Brand]], then
+          1. If _inst_.[[ClassBrands]] includes _F_.[[Brand]], then
             1. Return *true*.
           1. Else,
             1. Return *false*.
