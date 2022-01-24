@@ -189,9 +189,9 @@ contributors: HE Shi-Jun, XU Tian-Yang, Tu Qiang
           CoverCallExpressionAndAsyncArrowHead
           SuperCall
           ImportCall
+          <ins>ClassHasInstanceCall</ins>
           CallExpression Arguments
           CallExpression TemplateLiteral
-          <ins>ClassHasInstanceCall</ins>
       </emu-grammar>
       <emu-alg>
         1. Return ~invalid~.
@@ -529,22 +529,6 @@ contributors: HE Shi-Jun, XU Tian-Yang, Tu Qiang
       </emu-clause>
     </emu-clause>
   </emu-clause>
-
-  <emu-clause id="sec-execution-contexts">
-    <h1>Execution Contexts</h1>
-    <emu-clause id="sec-getclassenvironment" aoid="GetClassEnvironment">
-      <h1>GetClassEnvironment ( )</h1>
-      <p>The abstract operation GetClassEnvironment takes no arguments. It finds the Function Environment Record that currently supplies the binding of the keyword `class`. It performs the following steps when called:</p>
-      <emu-alg>
-        1. Let _envRec_ be the GetThisEnvironment().
-        1. Repeat,
-          1. If _envRec_ is not a Function Environment Record, return ~empty~
-          1. If _envRec_.[[HasClassBinding]]() is *true*, return _envRec_.
-          1. Let _envRec_ be _envRec_.[[OuterEnv]].
-        1. Return ~empty~.
-      </emu-alg>
-    </emu-clause>
-  </emu-clause>
 </emu-clause>
 
 <emu-clause id="sec-ordinary-and-exotic-objects-behaviours">
@@ -793,84 +777,6 @@ contributors: HE Shi-Jun, XU Tian-Yang, Tu Qiang
 <emu-clause id="sec-ecmascript-language-expressions">
   <h1>ECMAScript Language: Expressions</h1>
 
-  <emu-clause id="sec-primary-expression">
-    <h1>Primary Expression</h1>
-    <emu-clause id="sec-object-initializer">
-      <h1>Object Initializer</h1>
-
-      <emu-clause id="sec-runtime-semantics-propertydefinitionevaluation" oldids="sec-object-initializer-runtime-semantics-propertydefinitionevaluation" type="sdo" aoid="PropertyDefinitionEvaluation">
-        <h1>Runtime Semantics: PropertyDefinitionEvaluation</h1>
-        <p>With parameters _object_<del> and _enumerable_</del><ins>, _enumerable_ and optional parameter _classObject_</ins>.</p>
-        <emu-grammar>PropertyDefinitionList : PropertyDefinitionList `,` PropertyDefinition</emu-grammar>
-        <emu-alg>
-          1. <ins>Assert: _classObject_ is not present or Type(_classObject_) is Undefined.</ins>
-          1. Perform ? PropertyDefinitionEvaluation of |PropertyDefinitionList| with arguments _object_ and _enumerable_.
-          1. Return the result of performing PropertyDefinitionEvaluation of |PropertyDefinition| with arguments _object_ and _enumerable_.
-        </emu-alg>
-        <emu-grammar>PropertyDefinition : `...` AssignmentExpression</emu-grammar>
-        <emu-alg>
-          1. <ins>Assert: _classObject_ is not present or Type(_classObject_) is Undefined.</ins>
-          1. Let _exprValue_ be the result of evaluating |AssignmentExpression|.
-          1. Let _fromValue_ be ? GetValue(_exprValue_).
-          1. Let _excludedNames_ be a new empty List.
-          1. Return ? CopyDataProperties(_object_, _fromValue_, _excludedNames_).
-        </emu-alg>
-        <emu-grammar>PropertyDefinition : IdentifierReference</emu-grammar>
-        <emu-alg>
-          1. <ins>Assert: _classObject_ is not present or Type(_classObject_) is Undefined.</ins>
-          1. Let _propName_ be StringValue of |IdentifierReference|.
-          1. Let _exprValue_ be the result of evaluating |IdentifierReference|.
-          1. Let _propValue_ be ? GetValue(_exprValue_).
-          1. Assert: _enumerable_ is *true*.
-          1. Assert: _object_ is an ordinary, extensible object with no non-configurable properties.
-          1. Return ! CreateDataPropertyOrThrow(_object_, _propName_, _propValue_).
-        </emu-alg>
-        <emu-grammar>PropertyDefinition : PropertyName `:` AssignmentExpression</emu-grammar>
-        <emu-alg>
-          1. <ins>Assert: _classObject_ is not present or Type(_classObject_) is Undefined.</ins>
-          1. Let _propKey_ be the result of evaluating |PropertyName|.
-          1. ReturnIfAbrupt(_propKey_).
-          1. If IsAnonymousFunctionDefinition(|AssignmentExpression|) is *true*, then
-            1. Let _propValue_ be ? NamedEvaluation of |AssignmentExpression| with argument _propKey_.
-          1. Else,
-            1. Let _exprValueRef_ be the result of evaluating |AssignmentExpression|.
-            1. Let _propValue_ be ? GetValue(_exprValueRef_).
-          1. Assert: _enumerable_ is *true*.
-          1. Assert: _object_ is an ordinary, extensible object with no non-configurable properties.
-          1. Return ! CreateDataPropertyOrThrow(_object_, _propKey_, _propValue_).
-        </emu-alg>
-        <emu-note>
-          <p>An alternative semantics for this production is given in <emu-xref href="#sec-__proto__-property-names-in-object-initializers"></emu-xref>.</p>
-        </emu-note>
-        <emu-grammar>
-          MethodDefinition :
-            PropertyName `(` UniqueFormalParameters `)` `{` FunctionBody `}`
-            `get` PropertyName `(` `)` `{` FunctionBody `}`
-            `set` PropertyName `(` PropertySetParameterList `)` `{` FunctionBody `}`
-        </emu-grammar>
-        <emu-alg>
-          1. Return ? MethodDefinitionEvaluation of |MethodDefinition| with arguments _object_<del> and _enumerable_</del><ins>, _enumerable_ and _classObject_</ins>.
-        </emu-alg>
-        <emu-grammar>GeneratorMethod : `*` PropertyName `(` UniqueFormalParameters `)` `{` GeneratorBody `}`</emu-grammar>
-        <emu-alg>
-          1. Return ? MethodDefinitionEvaluation of |GeneratorMethod| with arguments _object_<del> and _enumerable_</del><ins>, _enumerable_ and _classObject_</ins>.
-        </emu-alg>
-        <emu-grammar>
-          AsyncGeneratorMethod : `async` `*` PropertyName `(` UniqueFormalParameters `)` `{` AsyncGeneratorBody `}`
-        </emu-grammar>
-        <emu-alg>
-          1. Return ? MethodDefinitionEvaluation of |AsyncGeneratorMethod| with arguments _object_<del> and _enumerable_</del><ins>, _enumerable_ and _classObject_</ins>.
-        </emu-alg>
-        <emu-grammar>
-          AsyncMethod : `async` PropertyName `(` UniqueFormalParameters `)` `{` AsyncFunctionBody `}`
-        </emu-grammar>
-        <emu-alg>
-          1. Return ? MethodDefinitionEvaluation of |AsyncMethod| with arguments _object_<del> and _enumerable_</del><ins>, _enumerable_ and _classObject_</ins>.
-        </emu-alg>
-      </emu-clause>
-    </emu-clause>
-  </emu-clause>
-
   <emu-clause id="sec-left-hand-side-expressions">
     <h1>Left-Hand-Side Expressions</h1>
     <h2>Syntax</h2>
@@ -890,9 +796,9 @@ contributors: HE Shi-Jun, XU Tian-Yang, Tu Qiang
         `class` `.` `hasInstance` `(` AssignmentExpression[+In, ?Yield, ?Await] `,`? `)`
     </emu-grammar>
 
-    <emu-clause id="sec-class-keyword">
-      <h1>The `class` Keyword</h1>
-      <emu-clause id="sec-class-keyword-runtime-semantics-evaluation">
+    <emu-clause id="sec-meta-methods">
+      <h1>Meta Methods</h1>
+      <emu-clause id="sec-meta-methods-runtime-semantics-evaluation">
         <h1>Runtime Semantics: Evalutaion</h1>
         <emu-grammar>
           ClassHasInstanceCall :
@@ -902,14 +808,23 @@ contributors: HE Shi-Jun, XU Tian-Yang, Tu Qiang
           1. Let _inst_ be the result of |AssignmentExpression|.
           1. If Type(_inst_) is not Object.
             1. Return *false*.
-          1. Let _envRec_ be GetClassEnvironment()
-          1. If _envRec_ is ~empty~, return *false*.
-          1. Let _F_ be _envRec_.[[GetClassBinding]]().
-          1. If _F_.[[Brand]] is ~empty~, return *false*.
+          1. Let _F_ be GetClassConstructor().
+          1. Assert: _F_.[[Brand]] is not *empty*.
           1. If _inst_.[[ClassBrands]] includes _F_.[[Brand]], then
             1. Return *true*.
           1. Else,
             1. Return *false*.
+        </emu-alg>
+      </emu-clause>
+      <emu-clause id="sec-get-constructor" type="abstract operation">
+        <h1><ins>GetClassConstructor ( )</ins></h1>
+        <emu-alg>
+          1. Let _envRec_ be GetThisEnvironment().
+          1. Repeat,
+            1. If _envRec_ is not a Function Environment Record, return *empty*
+            1. If _envRec_.[[HasClassBinding]]() is *true*, Return _envRec_.[[GetClassBinding]]().
+            1. Let _envRec_ be _envRec_.[[OuterEnv]].
+          1. Return *empty*.
         </emu-alg>
       </emu-clause>
     </emu-clause>
@@ -962,6 +877,35 @@ contributors: HE Shi-Jun, XU Tian-Yang, Tu Qiang
         <li>
           <ins>It is a Syntax Error if |FunctionBody| Contains |ClassHasInstanceCall| is *true*.</ins>
         </li>
+      </ul>
+    </emu-clause>
+  </emu-clause>
+
+  <emu-clause id="sec-arrow-function-definitions">
+    <h1>Arrow Function Definitions</h1>
+
+    <emu-clause id="sec-async-function-definitions-static-semantics-early-errors">
+      <h1>Static Semantics: Early Errors</h1>
+      <emu-grammar>
+        AsyncFunctionDeclaration :
+          `async` `function` BindingIdentifier `(` FormalParameters `)` `{` AsyncFunctionBody `}`
+          `async` `function` `(` FormalParameters `)` `{` AsyncFunctionBody `}`
+
+        AsyncFunctionExpression :
+          `async` `function` BindingIdentifier? `(` FormalParameters `)` `{` AsyncFunctionBody `}`
+      </emu-grammar>
+      <ul>
+        <li>It is a Syntax Error if FunctionBodyContainsUseStrict of |AsyncFunctionBody| is *true* and IsSimpleParameterList of |FormalParameters| is *false*.</li>
+        <li>It is a Syntax Error if |FormalParameters| Contains |AwaitExpression| is *true*.</li>
+        <li>If the source code matching |FormalParameters| is strict mode code, the Early Error rules for <emu-grammar>UniqueFormalParameters : FormalParameters</emu-grammar> are applied.</li>
+        <li>If |BindingIdentifier| is present and the source code matching |BindingIdentifier| is strict mode code, it is a Syntax Error if the StringValue of |BindingIdentifier| is *"eval"* or *"arguments"*.</li>
+        <li>It is a Syntax Error if any element of the BoundNames of |FormalParameters| also occurs in the LexicallyDeclaredNames of |AsyncFunctionBody|.</li>
+        <li>It is a Syntax Error if |FormalParameters| Contains |SuperProperty| is *true*.</li>
+        <li>It is a Syntax Error if |AsyncFunctionBody| Contains |SuperProperty| is *true*.</li>
+        <li>It is a Syntax Error if |FormalParameters| Contains |SuperCall| is *true*.</li>
+        <li>It is a Syntax Error if |AsyncFunctionBody| Contains |SuperCall| is *true*.</li>
+        <li><ins>It is a Syntax Error if |FormalParameters| Contains |ClassHasInstanceCall| is *true*.</ins></li>
+        <li><ins>It is a Syntax Error if |AsyncFunctionBody| Contains |ClassHasInstanceCall| is *true*.</ins></li>
       </ul>
     </emu-clause>
   </emu-clause>
@@ -1161,15 +1105,15 @@ contributors: HE Shi-Jun, XU Tian-Yang, Tu Qiang
       </ins>
     </p>
 
-    <emu-clause id="sec-static-semantics-includeclasshasinstance" type="sdo" aoid="IncludeClassHasInstance">
-      <h1><ins>Static Semantics: IncludeClassHasInstance</ins></h1>
+    <emu-clause id="sec-semantics-containsclassbrandcheck">
+      <h1><ins>Static Semantics: ContainsClassBrandCheck</ins></h1>
       <emu-grammar>
         ClassElement :
           MethodDefinition
           `static` MethodDefinition
       </emu-grammar>
       <emu-alg>
-        1. Return IncludeClassHasInstance of |MethodDefinition|.
+        1. Return ContainsClassBrandCheck of |MethodDefinition|.
       </emu-alg>
       <emu-grammar>
         ClassElement:
@@ -1177,7 +1121,7 @@ contributors: HE Shi-Jun, XU Tian-Yang, Tu Qiang
           `static` FieldDefinition
       </emu-grammar>
       <emu-alg>
-        1. Return IncludeClassHasInstance of |FieldDefintion|.
+        1. Return ContainsClassBrandCheck of |FieldDefintion|.
       </emu-alg>
       <emu-grammar>
         MethodDefinition : ClassElementName `(` UniqueFormalParameters `)` `{` FunctionBody `}`
@@ -1217,7 +1161,7 @@ contributors: HE Shi-Jun, XU Tian-Yang, Tu Qiang
       </emu-grammar>
       <emu-alg>
         1. If |Initializer_opt| is not preset, return *false*.
-        1. Return IncludeClassHasInstance of |Initializer|.
+        1. Return ContainsClassBrandCheck of |Initializer|.
       </emu-alg>
       <emu-grammar>
         Initializer :
@@ -1229,19 +1173,35 @@ contributors: HE Shi-Jun, XU Tian-Yang, Tu Qiang
     </emu-clause>
 
     <emu-clause id="sec-runtime-semantics-classdefinitionevaluation" oldids="sec-default-constructor-functions" type="sdo">
-      <h1>Runtime Semantics: ClassDefinitionEvaluation</h1>
-      <p>With parameters _classBinding_ and _className_.</p>
+      <h1>
+        Runtime Semantics: ClassDefinitionEvaluation (
+          _classBinding_: unknown,
+          _className_: unknown,
+        )
+      </h1>
+      <dl class="header">
+      </dl>
       <emu-grammar>ClassTail : ClassHeritage? `{` ClassBody? `}`</emu-grammar>
       <emu-alg>
         1. Let _env_ be the LexicalEnvironment of the running execution context.
         1. Let _classScope_ be NewDeclarativeEnvironment(_env_).
         1. If _classBinding_ is not *undefined*, then
           1. Perform _classScope_.CreateImmutableBinding(_classBinding_, *true*).
+        1. Let _outerPrivateEnvironment_ be the running execution context's PrivateEnvironment.
+        1. Let _classPrivateEnvironment_ be NewPrivateEnvironment(_outerPrivateEnvironment_).
+        1. If |ClassBody_opt| is present, then
+          1. For each String _dn_ of the PrivateBoundIdentifiers of |ClassBody_opt|, do
+            1. If _classPrivateEnvironment_.[[Names]] contains a Private Name whose [[Description]] is _dn_, then
+              1. Assert: This is only possible for getter/setter pairs.
+            1. Else,
+              1. Let _name_ be a new Private Name whose [[Description]] value is _dn_.
+              1. Append _name_ to _classPrivateEnvironment_.[[Names]].
         1. If |ClassHeritage_opt| is not present, then
           1. Let _protoParent_ be %Object.prototype%.
           1. Let _constructorParent_ be %Function.prototype%.
         1. Else,
           1. Set the running execution context's LexicalEnvironment to _classScope_.
+          1. NOTE: The running execution context's PrivateEnvironment is _outerPrivateEnvironment_ when evaluating |ClassHeritage|.
           1. Let _superclassRef_ be the result of evaluating |ClassHeritage|.
           1. Set the running execution context's LexicalEnvironment to _env_.
           1. Let _superclass_ be ? GetValue(_superclassRef_).
@@ -1257,68 +1217,92 @@ contributors: HE Shi-Jun, XU Tian-Yang, Tu Qiang
         1. If |ClassBody_opt| is not present, let _constructor_ be ~empty~.
         1. Else, let _constructor_ be ConstructorMethod of |ClassBody|.
         1. Set the running execution context's LexicalEnvironment to _classScope_.
+        1. Set the running execution context's PrivateEnvironment to _classPrivateEnvironment_.
         1. If _constructor_ is ~empty~, then
-          1. Let _steps_ be the algorithm steps defined in <a href="https://tc39.es/ecma262/2021/#sec-default-constructor-functions">Default Constructor Functions</a>.
-          1. Let _F_ be ! CreateBuiltinFunction(_steps_, 0, _className_, &laquo; [[ConstructorKind]], [[SourceText]] &raquo;, ~empty~, _constructorParent_).
+          1. Let _defaultConstructor_ be a new Abstract Closure with no parameters that captures nothing and performs the following steps when called:
+            1. Let _args_ be the List of arguments that was passed to this function by [[Call]] or [[Construct]].
+            1. If NewTarget is *undefined*, throw a *TypeError* exception.
+            1. Let _F_ be the active function object.
+            1. If _F_.[[ConstructorKind]] is ~derived~, then
+              1. NOTE: This branch behaves similarly to `constructor(...args) { super(...args); }`. The most notable distinction is that while the aforementioned ECMAScript source text observably calls the @@iterator method on `%Array.prototype%`, this function does not.
+              1. Let _func_ be ! _F_.[[GetPrototypeOf]]().
+              1. If IsConstructor(_func_) is *false*, throw a *TypeError* exception.
+              1. Let _result_ be ? Construct(_func_, _args_, NewTarget).
+            1. Else,
+              1. NOTE: This branch behaves similarly to `constructor() {}`.
+              1. Let _result_ be ? OrdinaryCreateFromConstructor(NewTarget, *"%Object.prototype%"*).
+            1. Perform ? InitializeInstanceElements(_result_, _F_).
+            1. Return _result_.
+          1. Let _F_ be ! CreateBuiltinFunction(_defaultConstructor_, 0, _className_, &laquo; [[ConstructorKind]], [[SourceText]] &raquo;, the current Realm Record, _constructorParent_).
         1. Else,
           1. Let _constructorInfo_ be ! DefineMethod of _constructor_ with arguments _proto_ and _constructorParent_.
           1. Let _F_ be _constructorInfo_.[[Closure]].
           1. Perform ! MakeClassConstructor(_F_).
           1. Perform ! SetFunctionName(_F_, _className_).
-        1. <ins>Set _F_.[[InitialClassObject]] to _F_.</ins>
         1. Perform ! MakeConstructor(_F_, *false*, _proto_).
         1. If |ClassHeritage_opt| is present, set _F_.[[ConstructorKind]] to ~derived~.
         1. Perform ! CreateMethodProperty(_proto_, *"constructor"*, _F_).
-        1. If |ClassBody_opt| is not present, let _methods_ be a new empty List.
-        1. Else, let _methods_ be NonConstructorMethodDefinitions of |ClassBody|.
+        1. If |ClassBody_opt| is not present, let _elements_ be a new empty List.
+        1. Else, let _elements_ be NonConstructorElements of |ClassBody|.
+        1. Let _instancePrivateMethods_ be a new empty List.
+        1. Let _staticPrivateMethods_ be a new empty List.
+        1. Let _instanceFields_ be a new empty List.
+        1. Let _staticElements_ be a new empty List.
         1. <ins>Let _hasBrandCheck_ be *false*.</ins>
-        1. For each |ClassElement| _m_ of _methods_, do
-          1. <ins>If IncludeClassHasInstance of _e_ is *true*, Set _hasBrandCheck_ to *true*.</ins>
-          1. If IsStatic of _m_ is *false*, then
-            1. Let _status_ be PropertyDefinitionEvaluation of _m_ with arguments _proto_<del> and *false*</del><ins>, *false* and _F_</ins>.
+        1. For each |ClassElement| _e_ of _elements_, do
+          1. <ins>If ContainsClassBrandCheck of _e_ is *true*, then</ins>
+            1. <ins>Set _hasBrandCheck_ to *true*.</ins>
+          1. If IsStatic of _e_ is *false*, then
+            1. Let _element_ be ClassElementEvaluation of _e_ with argument _proto_.
           1. Else,
-            1. Let _status_ be PropertyDefinitionEvaluation of _m_ with arguments _F_<del> and *false*</del><ins>, *false* and _F_</ins>.
-          1. If _status_ is an abrupt completion, then
+            1. Let _element_ be ClassElementEvaluation of _e_ with argument _F_.
+          1. If _element_ is an abrupt completion, then
             1. Set the running execution context's LexicalEnvironment to _env_.
-            1. Return Completion(_status_).
+            1. Set the running execution context's PrivateEnvironment to _outerPrivateEnvironment_.
+            1. Return Completion(_element_).
+          1. Set _element_ to _element_.[[Value]].
+          1. If _element_ is a PrivateElement, then
+            1. Assert: _element_.[[Kind]] is either ~method~ or ~accessor~.
+            1. If IsStatic of _e_ is *false*, let _container_ be _instancePrivateMethods_.
+            1. Else, let _container_ be _staticPrivateMethods_.
+            1. If _container_ contains a PrivateElement whose [[Key]] is _element_.[[Key]], then
+              1. Let _existing_ be that PrivateElement.
+              1. Assert: _element_.[[Kind]] and _existing_.[[Kind]] are both ~accessor~.
+              1. If _element_.[[Get]] is *undefined*, then
+                1. Let _combined_ be PrivateElement { [[Key]]: _element_.[[Key]], [[Kind]]: ~accessor~, [[Get]]: _existing_.[[Get]], [[Set]]: _element_.[[Set]] }.
+              1. Else,
+                1. Let _combined_ be PrivateElement { [[Key]]: _element_.[[Key]], [[Kind]]: ~accessor~, [[Get]]: _element_.[[Get]], [[Set]]: _existing_.[[Set]] }.
+              1. Replace _existing_ in _container_ with _combined_.
+            1. Else,
+              1. Append _element_ to _container_.
+          1. Else if _element_ is a ClassFieldDefinition Record, then
+            1. If IsStatic of _e_ is *false*, append _element_ to _instanceFields_.
+            1. Else, append _element_ to _staticElements_.
+          1. Else if _element_ is a ClassStaticBlockDefinition Record, then
+            1. Append _element_ to _staticElements_.
+        1. Set the running execution context's LexicalEnvironment to _env_.
+        1. If _classBinding_ is not *undefined*, then
+          1. Perform _classScope_.InitializeBinding(_classBinding_, _F_).
+        1. Set _F_.[[PrivateMethods]] to _instancePrivateMethods_.
+        1. Set _F_.[[Fields]] to _instanceFields_.
         1. <ins>If _hasBrandCheck_ is *true*, then</ins>
           1. <ins>Set _F_.[[Brand]] to a new unique value.</ins>
         1. <ins>Else</ins>
           1. <ins>Set _F_.[[Brand]] to ~empty~.</ins>
-        1. Set the running execution context's LexicalEnvironment to _env_.
-        1. If _classBinding_ is not *undefined*, then
-          1. Perform _classScope_.InitializeBinding(_classBinding_, _F_).
+        1. For each PrivateElement _method_ of _staticPrivateMethods_, do
+          1. Perform ! PrivateMethodOrAccessorAdd(_F_, _method_).
+        1. For each element _elementRecord_ of _staticElements_, do
+          1. If _elementRecord_ is a ClassFieldDefinition Record, then
+            1. Let _result_ be DefineField(_F_, _elementRecord_).
+          1. Else,
+            1. Assert: _elementRecord_ is a ClassStaticBlockDefinition Record.
+            1. Let _result_ be ? Call(_elementRecord_.[[BodyFunction]], _F_).
+          1. If _result_ is an abrupt completion, then
+            1. Set the running execution context's PrivateEnvironment to _outerPrivateEnvironment_.
+            1. Return _result_.
+        1. Set the running execution context's PrivateEnvironment to _outerPrivateEnvironment_.
         1. Return _F_.
       </emu-alg>
-    </emu-clause>
-  </emu-clause>
-
-  <emu-clause id="sec-async-function-definitions">
-    <h1>Async Function Definitions</h1>
-
-    <emu-clause id="sec-async-function-definitions-static-semantics-early-errors">
-      <h1>Static Semantics: Early Errors</h1>
-      <emu-grammar>
-        AsyncFunctionDeclaration :
-          `async` `function` BindingIdentifier `(` FormalParameters `)` `{` AsyncFunctionBody `}`
-          `async` `function` `(` FormalParameters `)` `{` AsyncFunctionBody `}`
-
-        AsyncFunctionExpression :
-          `async` `function` BindingIdentifier? `(` FormalParameters `)` `{` AsyncFunctionBody `}`
-      </emu-grammar>
-      <ul>
-        <li>It is a Syntax Error if FunctionBodyContainsUseStrict of |AsyncFunctionBody| is *true* and IsSimpleParameterList of |FormalParameters| is *false*.</li>
-        <li>It is a Syntax Error if |FormalParameters| Contains |AwaitExpression| is *true*.</li>
-        <li>If the source code matching |FormalParameters| is strict mode code, the Early Error rules for <emu-grammar>UniqueFormalParameters : FormalParameters</emu-grammar> are applied.</li>
-        <li>If |BindingIdentifier| is present and the source code matching |BindingIdentifier| is strict mode code, it is a Syntax Error if the StringValue of |BindingIdentifier| is *"eval"* or *"arguments"*.</li>
-        <li>It is a Syntax Error if any element of the BoundNames of |FormalParameters| also occurs in the LexicallyDeclaredNames of |AsyncFunctionBody|.</li>
-        <li>It is a Syntax Error if |FormalParameters| Contains |SuperProperty| is *true*.</li>
-        <li>It is a Syntax Error if |AsyncFunctionBody| Contains |SuperProperty| is *true*.</li>
-        <li>It is a Syntax Error if |FormalParameters| Contains |SuperCall| is *true*.</li>
-        <li>It is a Syntax Error if |AsyncFunctionBody| Contains |SuperCall| is *true*.</li>
-        <li><ins>It is a Syntax Error if |FormalParameters| Contains |ClassHasInstanceCall| is *true*.</ins></li>
-        <li><ins>It is a Syntax Error if |AsyncFunctionBody| Contains |ClassHasInstanceCall| is *true*.</ins></li>
-      </ul>
     </emu-clause>
   </emu-clause>
 </emu-clause>
