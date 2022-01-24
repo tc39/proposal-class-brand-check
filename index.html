@@ -1879,7 +1879,7 @@ li.menu-search-result-term:before {
           <var>classBinding</var>: unknown,
           <var>className</var>: unknown,
         )
-      </a></li></ol></li></ol></li><li><span class="item-toggle">◢</span><a href="#sec-ecmascript-language-scripts-and-modules" title="ECMAScript Language: Scripts and Modules"><span class="secnum">7</span> ECMAScript Language: Scripts and Modules</a><ol class="toc"><li><span class="item-toggle">◢</span><a href="#sec-scripts" title="Scripts"><span class="secnum">7.1</span> Scripts</a><ol class="toc"><li><span class="item-toggle-none"></span><a href="#sec-scripts-static-semantics-early-errors" title="Static Semantics: Early Errors"><span class="secnum">7.1.1</span> SS: Early Errors</a></li></ol></li><li><span class="item-toggle">◢</span><a href="#sec-modules" title="Modules"><span class="secnum">7.2</span> Modules</a><ol class="toc"><li><span class="item-toggle">◢</span><a href="#sec-module-semantics" title="Module Semantics"><span class="secnum">7.2.1</span> Module Semantics</a><ol class="toc"><li><span class="item-toggle-none"></span><a href="#sec-module-semantics-static-semantics-early-errors" title="Static Semantics: Early Errors"><span class="secnum">7.2.1.1</span> SS: Early Errors</a></li></ol></li></ol></li></ol></li><li><span class="item-toggle-none"></span><a href="#sec-copyright-and-software-license" title="Copyright &amp; Software License"><span class="secnum">A</span> Copyright &amp; Software License</a></li></ol></div></div><div id="spec-container"><h1 class="version first">Stage -1 Draft / January 22, 2022</h1><h1 class="title">ECMAScript class brand check proposal</h1>
+      </a></li></ol></li></ol></li><li><span class="item-toggle">◢</span><a href="#sec-ecmascript-language-scripts-and-modules" title="ECMAScript Language: Scripts and Modules"><span class="secnum">7</span> ECMAScript Language: Scripts and Modules</a><ol class="toc"><li><span class="item-toggle">◢</span><a href="#sec-scripts" title="Scripts"><span class="secnum">7.1</span> Scripts</a><ol class="toc"><li><span class="item-toggle-none"></span><a href="#sec-scripts-static-semantics-early-errors" title="Static Semantics: Early Errors"><span class="secnum">7.1.1</span> SS: Early Errors</a></li></ol></li><li><span class="item-toggle">◢</span><a href="#sec-modules" title="Modules"><span class="secnum">7.2</span> Modules</a><ol class="toc"><li><span class="item-toggle">◢</span><a href="#sec-module-semantics" title="Module Semantics"><span class="secnum">7.2.1</span> Module Semantics</a><ol class="toc"><li><span class="item-toggle-none"></span><a href="#sec-module-semantics-static-semantics-early-errors" title="Static Semantics: Early Errors"><span class="secnum">7.2.1.1</span> SS: Early Errors</a></li></ol></li></ol></li></ol></li><li><span class="item-toggle-none"></span><a href="#sec-copyright-and-software-license" title="Copyright &amp; Software License"><span class="secnum">A</span> Copyright &amp; Software License</a></li></ol></div></div><div id="spec-container"><h1 class="version first">Stage -1 Draft / January 24, 2022</h1><h1 class="title">ECMAScript class brand check proposal</h1>
 
 <emu-clause id="sec-ecmascript-data-types-and-values">
   <h1><span class="secnum">1</span> ECMAScript Data Types and Values</h1>
@@ -2253,9 +2253,15 @@ li.menu-search-result-term:before {
       <h1><span class="secnum">2.2.1</span> Static Semantics: AssignmentTargetType</h1>
 
       <emu-grammar type="definition"><emu-production name="CallExpression" id="prod-CallExpression">
-    <emu-nt><a href="#prod-CallExpression">CallExpression</a></emu-nt> <emu-geq>:</emu-geq> <emu-rhs a="7jj-96li"><emu-nt><a href="https://tc39.es/ecma262/#prod-CoverCallExpressionAndAsyncArrowHead">CoverCallExpressionAndAsyncArrowHead</a></emu-nt></emu-rhs>
-    <emu-rhs a="ljkqw-iw"><emu-nt><a href="https://tc39.es/ecma262/#prod-SuperCall">SuperCall</a></emu-nt></emu-rhs>
-    <emu-rhs a="kyx2iyhy"><emu-nt><a href="https://tc39.es/ecma262/#prod-ImportCall">ImportCall</a></emu-nt></emu-rhs>
+    <emu-nt><a href="#prod-CallExpression">CallExpression</a></emu-nt> <emu-geq>:</emu-geq> <emu-rhs a="7jj-96li">
+        <emu-nt><a href="https://tc39.es/ecma262/#prod-CoverCallExpressionAndAsyncArrowHead">CoverCallExpressionAndAsyncArrowHead</a></emu-nt>
+    </emu-rhs>
+    <emu-rhs a="ljkqw-iw">
+        <emu-nt><a href="https://tc39.es/ecma262/#prod-SuperCall">SuperCall</a></emu-nt>
+    </emu-rhs>
+    <emu-rhs a="kyx2iyhy">
+        <emu-nt><a href="https://tc39.es/ecma262/#prod-ImportCall">ImportCall</a></emu-nt>
+    </emu-rhs>
     <emu-rhs a="qugahahu">
         <emu-nt id="_ref_136"><a href="#prod-CallExpression">CallExpression</a></emu-nt>
         <emu-nt><a href="https://tc39.es/ecma262/#prod-Arguments">Arguments</a></emu-nt>
@@ -2264,7 +2270,9 @@ li.menu-search-result-term:before {
         <emu-nt id="_ref_137"><a href="#prod-CallExpression">CallExpression</a></emu-nt>
         <emu-nt><a href="https://tc39.es/ecma262/#prod-TemplateLiteral">TemplateLiteral</a></emu-nt>
     </emu-rhs>
-    <ins><emu-rhs a="lylhofma"><emu-nt id="_ref_138"><a href="#prod-ClassHasInstanceCall">ClassHasInstanceCall</a></emu-nt></emu-rhs></ins>
+    <ins><emu-rhs a="lylhofma">
+        <emu-nt id="_ref_138"><a href="#prod-ClassHasInstanceCall">ClassHasInstanceCall</a></emu-nt>
+    </emu-rhs></ins>
 </emu-production>
 </emu-grammar>
       <emu-alg><ol><li>Return <emu-const>invalid</emu-const>.</li></ol></emu-alg>
@@ -2766,10 +2774,18 @@ li.menu-search-result-term:before {
     <h1><span class="secnum">5.1</span> Left-Hand-Side Expressions</h1>
     <h2>Syntax</h2>
     <emu-grammar type="definition"><emu-production name="CallExpression" params="Yield, Await">
-    <emu-nt params="Yield, Await"><a href="#prod-CallExpression">CallExpression</a><emu-mods><emu-params>[Yield, Await]</emu-params></emu-mods></emu-nt> <emu-geq>:</emu-geq> <emu-rhs a="callcover"><emu-nt params="?Yield, ?Await"><a href="https://tc39.es/ecma262/#prod-CoverCallExpressionAndAsyncArrowHead">CoverCallExpressionAndAsyncArrowHead</a><emu-mods><emu-params>[?Yield, ?Await]</emu-params></emu-mods></emu-nt></emu-rhs>
-    <emu-rhs a="5cynbd7h"><emu-nt params="?Yield, ?Await"><a href="https://tc39.es/ecma262/#prod-SuperCall">SuperCall</a><emu-mods><emu-params>[?Yield, ?Await]</emu-params></emu-mods></emu-nt></emu-rhs>
-    <emu-rhs a="12avhmhv"><emu-nt params="?Yield, ?Await"><a href="https://tc39.es/ecma262/#prod-ImportCall">ImportCall</a><emu-mods><emu-params>[?Yield, ?Await]</emu-params></emu-mods></emu-nt></emu-rhs>
-    <ins><emu-rhs a="wezcunpk"><emu-nt params="?Yield, ?Await" id="_ref_145"><a href="#prod-ClassHasInstanceCall">ClassHasInstanceCall</a><emu-mods><emu-params>[?Yield, ?Await]</emu-params></emu-mods></emu-nt></emu-rhs></ins>
+    <emu-nt params="Yield, Await"><a href="#prod-CallExpression">CallExpression</a><emu-mods><emu-params>[Yield, Await]</emu-params></emu-mods></emu-nt> <emu-geq>:</emu-geq> <emu-rhs a="callcover">
+        <emu-nt params="?Yield, ?Await"><a href="https://tc39.es/ecma262/#prod-CoverCallExpressionAndAsyncArrowHead">CoverCallExpressionAndAsyncArrowHead</a><emu-mods><emu-params>[?Yield, ?Await]</emu-params></emu-mods></emu-nt>
+    </emu-rhs>
+    <emu-rhs a="5cynbd7h">
+        <emu-nt params="?Yield, ?Await"><a href="https://tc39.es/ecma262/#prod-SuperCall">SuperCall</a><emu-mods><emu-params>[?Yield, ?Await]</emu-params></emu-mods></emu-nt>
+    </emu-rhs>
+    <emu-rhs a="12avhmhv">
+        <emu-nt params="?Yield, ?Await"><a href="https://tc39.es/ecma262/#prod-ImportCall">ImportCall</a><emu-mods><emu-params>[?Yield, ?Await]</emu-params></emu-mods></emu-nt>
+    </emu-rhs>
+    <ins><emu-rhs a="wezcunpk">
+        <emu-nt params="?Yield, ?Await" id="_ref_145"><a href="#prod-ClassHasInstanceCall">ClassHasInstanceCall</a><emu-mods><emu-params>[?Yield, ?Await]</emu-params></emu-mods></emu-nt>
+    </emu-rhs></ins>
     <emu-rhs a="zq2ahe82">
         <emu-nt params="?Yield, ?Await" id="_ref_146"><a href="#prod-CallExpression">CallExpression</a><emu-mods><emu-params>[?Yield, ?Await]</emu-params></emu-mods></emu-nt>
         <emu-nt params="?Yield, ?Await"><a href="https://tc39.es/ecma262/#prod-Arguments">Arguments</a><emu-mods><emu-params>[?Yield, ?Await]</emu-params></emu-mods></emu-nt>
@@ -3248,7 +3264,9 @@ li.menu-search-result-term:before {
     <emu-clause id="sec-semantics-containsclassbrandcheck">
       <h1><span class="secnum">6.6.1</span> <ins>Static Semantics: ContainsClassBrandCheck</ins></h1>
       <emu-grammar><emu-production name="ClassElement" id="prod-ClassElement">
-    <emu-nt><a href="#prod-ClassElement">ClassElement</a></emu-nt> <emu-geq>:</emu-geq> <emu-rhs a="s8ilfl9g"><emu-nt id="_ref_219"><a href="#prod-MethodDefinition">MethodDefinition</a></emu-nt></emu-rhs>
+    <emu-nt><a href="#prod-ClassElement">ClassElement</a></emu-nt> <emu-geq>:</emu-geq> <emu-rhs a="s8ilfl9g">
+        <emu-nt id="_ref_219"><a href="#prod-MethodDefinition">MethodDefinition</a></emu-nt>
+    </emu-rhs>
     <emu-rhs a="-ljgtrpo">
         <emu-t>static</emu-t>
         <emu-nt id="_ref_220"><a href="#prod-MethodDefinition">MethodDefinition</a></emu-nt>
@@ -3257,7 +3275,9 @@ li.menu-search-result-term:before {
 </emu-grammar>
       <emu-alg><ol><li>Return ContainsClassBrandCheck of <emu-nt id="_ref_221"><a href="#prod-MethodDefinition">MethodDefinition</a></emu-nt>.</li></ol></emu-alg>
       <emu-grammar><emu-production name="ClassElement">
-    <emu-nt><a href="#prod-ClassElement">ClassElement</a></emu-nt> <emu-geq>:</emu-geq> <emu-rhs a="dzdpt16l"><emu-nt id="_ref_222"><a href="#prod-FieldDefinition">FieldDefinition</a></emu-nt></emu-rhs>
+    <emu-nt><a href="#prod-ClassElement">ClassElement</a></emu-nt> <emu-geq>:</emu-geq> <emu-rhs a="dzdpt16l">
+        <emu-nt id="_ref_222"><a href="#prod-FieldDefinition">FieldDefinition</a></emu-nt>
+    </emu-rhs>
     <emu-rhs a="ybvh57hf">
         <emu-t>static</emu-t>
         <emu-nt id="_ref_223"><a href="#prod-FieldDefinition">FieldDefinition</a></emu-nt>
