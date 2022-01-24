@@ -903,9 +903,8 @@ contributors: HE Shi-Jun, XU Tian-Yang, Tu Qiang
           1. If Type(_inst_) is not Object.
             1. Return *false*.
           1. Let _envRec_ be GetClassEnvironment()
-          1. If _envRec_ is ~empty~, return *false*.
           1. Let _F_ be _envRec_.[[GetClassBinding]]().
-          1. If _F_.[[Brand]] is ~empty~, return *false*.
+          1. Assert: _F_.[[Brand]] is not ~empty~.
           1. If _inst_.[[ClassBrands]] includes _F_.[[Brand]], then
             1. Return *true*.
           1. Else,
