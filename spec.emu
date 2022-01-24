@@ -335,6 +335,41 @@ contributors: HE Shi-Jun, XU Tian-Yang, Tu Qiang
         </emu-clause>
       </emu-clause>
 
+      <emu-clause id="sec-class-environment-records">
+        <h1><ins>Class Environment Records</ins></h1>
+        <p>A <dfn>class Environment Record</dfn> is a declarative Environment Record that is used to represent the top-level scope of a class, used to perform `class.hasInstance` meta method invocations from within the class.</p>
+        <p>Class Environment Records have the additional state fields listed in <emu-xref href="#table-additional-fields-of-class-environment-records"></emu-xref>.</p>
+        <emu-table id="table-additional-fields-of-class-environment-records" caption="Additional Fields of Class Environment Records">
+          <table>
+            <tbody>
+            <tr>
+              <th>
+                Field Name
+              </th>
+              <th>
+                Value
+              </th>
+              <th>
+                Meaning
+              </th>
+            </tr>
+            <tr>
+              <td>
+                [[ClassConstructor]]
+              </td>
+              <td>
+                Object
+              </td>
+              <td>
+                The class constructor whose definition caused this Environment Record to be created.
+              </td>
+            </tr>
+            </tbody>
+          </table>
+        </emu-table>
+        <p>Class Environment Records support all of the declarative Environment Record methods listed in <emu-xref href="#table-abstract-methods-of-environment-records"></emu-xref> and share the same specifications for all of those methods.</p>
+      </emu-clause>
+
       <emu-clause id="sec-function-environment-records" oldids="function-environment">
         <h1>Function Environment Records</h1>
         <p>A <dfn>function Environment Record</dfn> is a declarative Environment Record that is used to represent the top-level scope of a function and, if the function is not an |ArrowFunction|, provides a `this` binding. If a function is not an |ArrowFunction| function and references `super`, its function Environment Record also contains the state that is used to perform `super` method invocations from within the function.<ins> If a function is not an |ArrowFunction| function and references `class`, its function Environment Record also contains the state that is used to perform `class` property acccess from within the function.</ins></p>
@@ -508,6 +543,16 @@ contributors: HE Shi-Jun, XU Tian-Yang, Tu Qiang
     <emu-clause id="sec-environment-record-operations" oldids="sec-lexical-environment-operations">
       <h1>Environment Record Operations</h1>
 
+      <emu-clause id="sec-newclassenvironment" aoid="NewClassEnvironment">
+        <h1><ins>NewClassEnvironment ( E )</ins></h1>
+        <p>The abstract operation NewClassEnvironment takes argument E (an Environment Record). It performs the following steps when called:</p>
+        <emu-alg>
+          1. Let _env_ be a new class Environment Record containing no bindings.
+          1. Set _env_.[[OuterEnv]] to _E_.
+          1. Return _env_.
+        </emu-alg>
+      </emu-clause>
+
       <emu-clause id="sec-newfunctionenvironment" aoid="NewFunctionEnvironment">
         <h1>NewFunctionEnvironment ( _F_, _newTarget_ )</h1>
         <p>The abstract operation NewFunctionEnvironment takes arguments _F_ and _newTarget_. It performs the following steps when called:</p>
@@ -534,14 +579,12 @@ contributors: HE Shi-Jun, XU Tian-Yang, Tu Qiang
     <h1>Execution Contexts</h1>
     <emu-clause id="sec-getclassenvironment" aoid="GetClassEnvironment">
       <h1>GetClassEnvironment ( )</h1>
-      <p>The abstract operation GetClassEnvironment takes no arguments. It finds the Function Environment Record that currently supplies the binding of the keyword `class`. It performs the following steps when called:</p>
+      <p>The abstract operation GetClassEnvironment takes no arguments. It finds the Class Environment Record of the nearest containing class. It performs the following steps when called:</p>
       <emu-alg>
-        1. Let _envRec_ be the GetThisEnvironment().
+        1. Let _envRec_ be the running execution context's LexicalEnvironment.
         1. Repeat,
-          1. If _envRec_ is not a Function Environment Record, return ~empty~
-          1. If _envRec_.[[HasClassBinding]]() is *true*, return _envRec_.
+          1. If _envRec_ is a Class Environment Record, return _envRec_.
           1. Let _envRec_ be _envRec_.[[OuterEnv]].
-        1. Return ~empty~.
       </emu-alg>
     </emu-clause>
   </emu-clause>
@@ -903,9 +946,9 @@ contributors: HE Shi-Jun, XU Tian-Yang, Tu Qiang
           1. If Type(_inst_) is not Object.
             1. Return *false*.
           1. Let _envRec_ be GetClassEnvironment()
-          1. Let _F_ be _envRec_.[[GetClassBinding]]().
-          1. Assert: _F_.[[Brand]] is not ~empty~.
-          1. If _inst_.[[ClassBrands]] includes _F_.[[Brand]], then
+          1. Let _C_ be _envRec_.[[ClassConstructor]].
+          1. Assert: _C_.[[Brand]] is not ~empty~.
+          1. If _inst_.[[ClassBrands]] includes _C_.[[Brand]], then
             1. Return *true*.
           1. Else,
             1. Return *false*.
