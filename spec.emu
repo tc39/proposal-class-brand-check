@@ -538,10 +538,10 @@ contributors: HE Shi-Jun, XU Tian-Yang, Tu Qiang
       <emu-alg>
         1. Let _envRec_ be the GetThisEnvironment().
         1. Repeat,
-          1. If _envRec_ is not a Function Environment Record, return *empty*
+          1. If _envRec_ is not a Function Environment Record, return ~empty~
           1. If _envRec_.[[HasClassBinding]]() is *true*, return _envRec_.
           1. Let _envRec_ be _envRec_.[[OuterEnv]].
-        1. Return *empty*.
+        1. Return ~empty~.
       </emu-alg>
     </emu-clause>
   </emu-clause>
