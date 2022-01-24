@@ -776,15 +776,15 @@ contributors: HE Shi-Jun, XU Tian-Yang, Tu Qiang
         1. Let _result_ be OrdinaryCallEvaluateBody(_F_, _argumentsList_).
         1. Remove _calleeContext_ from the execution context stack and restore _callerContext_ as the running execution context.
         1. If _result_.[[Type]] is ~return~, then
-          1. <ins>If _F_.[[Brand]] is not ~empty~:</ins>
+          1. <ins>If _F_.[[ClassBrand]] is not ~empty~:</ins>
             1. <ins>Let _currentThis_ be _constructor_.GetThisBinding()</ins>
-            1. <ins>If _currentThis_.[[Type]] is not ~throw~, then append _F_.[[Brand]] to _currentThis_.[[Value]].</ins>
+            1. <ins>If _currentThis_.[[Type]] is not ~throw~, then append _F_.[[ClassBrand]] to _currentThis_.[[Value]].</ins>
           1. If Type(_result_.[[Value]]) is Object, return NormalCompletion(_result_.[[Value]]).
           1. If _kind_ is ~base~, return NormalCompletion(_thisArgument_).
           1. If _result_.[[Value]] is not *undefined*, throw a *TypeError* exception.
         1. Else, ReturnIfAbrupt(_result_).
         1. <ins>Let _currentThis_ be ? _constructorEnv_.GetThisBinding().</ins>
-        1. <ins>If _F_.[[Brand]] is not ~empty~, then append _F_.[[Brand]] to _currentThis_.[[ClassBrands]]</ins>
+        1. <ins>If _F_.[[ClassBrand]] is not ~empty~, then append _F_.[[ClassBrand]] to _currentThis_.[[ClassBrands]]</ins>
         1. <del>Return ? _constructorEnv_.GetThisBinding().</del>
         1. <ins>Return _currentThis_.</ins>
       </emu-alg>
@@ -947,8 +947,8 @@ contributors: HE Shi-Jun, XU Tian-Yang, Tu Qiang
             1. Return *false*.
           1. Let _envRec_ be GetClassEnvironment()
           1. Let _C_ be _envRec_.[[ClassConstructor]].
-          1. Assert: _C_.[[Brand]] is not ~empty~.
-          1. If _inst_.[[ClassBrands]] includes _C_.[[Brand]], then
+          1. Assert: _C_.[[ClassBrand]] is not ~empty~.
+          1. If _inst_.[[ClassBrands]] includes _C_.[[ClassBrand]], then
             1. Return *true*.
           1. Else,
             1. Return *false*.
@@ -1198,7 +1198,7 @@ contributors: HE Shi-Jun, XU Tian-Yang, Tu Qiang
 
     <p>
       <ins>
-        All class objects have an internal slot [[Brand]].
+        All class constructors have an internal slot [[ClassBrand]].
         Which is a unique value across realm represent for class brand.
       </ins>
     </p>
