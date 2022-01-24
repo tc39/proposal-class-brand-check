@@ -189,9 +189,9 @@ contributors: HE Shi-Jun, XU Tian-Yang, Tu Qiang
           CoverCallExpressionAndAsyncArrowHead
           SuperCall
           ImportCall
+          <ins>ClassHasInstanceCall</ins>
           CallExpression Arguments
           CallExpression TemplateLiteral
-          <ins>ClassHasInstanceCall</ins>
       </emu-grammar>
       <emu-alg>
         1. Return ~invalid~.
@@ -890,8 +890,8 @@ contributors: HE Shi-Jun, XU Tian-Yang, Tu Qiang
         `class` `.` `hasInstance` `(` AssignmentExpression[+In, ?Yield, ?Await] `,`? `)`
     </emu-grammar>
 
-    <emu-clause id="sec-class-keyword">
-      <h1>The `class` Keyword</h1>
+    <emu-clause id="sec-meta-methods">
+      <h1>Meta Methods</h1>
       <emu-clause id="sec-class-keyword-runtime-semantics-evaluation">
         <h1>Runtime Semantics: Evalutaion</h1>
         <emu-grammar>
