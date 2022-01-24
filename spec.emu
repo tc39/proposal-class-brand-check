@@ -1258,7 +1258,7 @@ contributors: HE Shi-Jun, XU Tian-Yang, Tu Qiang
         1. Else, let _constructor_ be ConstructorMethod of |ClassBody|.
         1. Set the running execution context's LexicalEnvironment to _classScope_.
         1. If _constructor_ is ~empty~, then
-          1. Let _steps_ be the algorithm steps defined in <emu-xref href="#sec-default-constructor-functions" title></emu-xref>.
+          1. Let _steps_ be the algorithm steps defined in <a href="https://tc39.es/ecma262/2021/#sec-default-constructor-functions">Default Constructor Functions</a>.
           1. Let _F_ be ! CreateBuiltinFunction(_steps_, 0, _className_, &laquo; [[ConstructorKind]], [[SourceText]] &raquo;, ~empty~, _constructorParent_).
         1. Else,
           1. Let _constructorInfo_ be ! DefineMethod of _constructor_ with arguments _proto_ and _constructorParent_.
