@@ -18,9 +18,9 @@ C.isC(p) // false
 
 Stage: 1
 
-Authors: HE Shi-Jun (@hax), XU Tian-Yang (@XGHeaven)
+Authors: HE Shi-Jun (@hax), XU Tian-Yang (@XGHeaven), Tu Qiang(@YuriTu)
 
-Champion: HE Shi-Jun
+Champion: HE Shi-Jun, XU Tian-Yang, Tu Qiang
 
 ## Implementations
 
@@ -51,9 +51,9 @@ class C {
 }
 ```
 
-As private-in proposal, people can utilize private field and private in syntax to do brand check, but it's just abusing of private fields. People need to add a private field even they don't really want it. And unfortunately, private field have a significant semantic differences to normal data properaty, so introducing of private field would introduce a breaking change, and potentially decrease the interoperability of the code with many libraries/frameworks. 
+As private-in proposal, people can utilize private field and private in syntax to do brand check, but it's just abusing of private fields. People need to add a private field even they don't really want it. And unfortunately, private field have a significant semantic differences to normal data properaty, so introducing of private field would introduce a breaking change, and potentially decrease the interoperability of the code with many libraries/frameworks.
 
-Even you already use private fields for good reasons, this also cause the problem: 
+Even you already use private fields for good reasons, this also cause the problem:
 
 ```js
 class C {
