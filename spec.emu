@@ -775,6 +775,17 @@ contributors: HE Shi-Jun, XU Tian-Yang, Tu Qiang
             Indicates whether the function is a class constructor. (If *true*, invoking the function's [[Call]] will immediately throw a *TypeError* exception.)
           </td>
         </tr>
+        <tr>
+          <td>
+            <ins>[[ClassBrand]]</ins>
+          </td>
+          <td>
+            <ins>a globally unique value | ~empty~</ins>
+          </td>
+          <td>
+            <ins>If the function is a class, this might be a globally unique value; ~empty~ otherwise.</ins>
+          </td>
+        </tr>
       </table>
     </emu-table>
 
@@ -991,13 +1002,6 @@ contributors: HE Shi-Jun, XU Tian-Yang, Tu Qiang
 <emu-clause id="sec-ecmascript-language-functions-and-classes">
   <emu-clause id="sec-class-definitions">
     <h1>Class Definitions</h1>
-
-    <p>
-      <ins>
-        All class constructors have an internal slot [[ClassBrand]].
-        Which is a unique value across realm represent for class brand.
-      </ins>
-    </p>
 
     <emu-clause id="sec-static-semantics-includeclasshasinstance" type="sdo" aoid="IncludeClassHasInstance">
       <h1><ins>Static Semantics: IncludeClassHasInstance</ins></h1>
