@@ -97,7 +97,7 @@ contributors: HE Shi-Jun, XU Tian-Yang, Tu Qiang
         </ins>
       </emu-grammar>
       <emu-alg>
-        1. If _symbol_ is one of |ClassHasInstanceCall|, then
+        1. If _symbol_ is |ClassHasInstanceCall|, then
           1. If |FormalParameters| Contains _symbol_ is *true*, return *true*.
           1. If |FunctionBody| Contains _symbol_ is *true*, return *true*.
         1. Return *false*.
@@ -113,7 +113,7 @@ contributors: HE Shi-Jun, XU Tian-Yang, Tu Qiang
         </ins>
       </emu-grammar>
       <emu-alg>
-        1. If _symbol_ is one of |ClassHasInstanceCall|, then
+        1. If _symbol_ is |ClassHasInstanceCall|, then
           1. If |FormalParameters| Contains _symbol_ is *true*, return *true*.
           1. If |GeneratorBody| Contains _symbol_ is *true*, return *true*.
         1. Return *false*.
