@@ -53,7 +53,6 @@ contributors: HE Shi-Jun, XU Tian-Yang, Tu Qiang
         1. Return *false*.
       </emu-alg>
       <emu-grammar>
-        <del>
         FunctionDeclaration :
           `function` BindingIdentifier `(` FormalParameters `)` `{` FunctionBody `}`
           `function` `(` FormalParameters `)` `{` FunctionBody `}`
@@ -81,79 +80,23 @@ contributors: HE Shi-Jun, XU Tian-Yang, Tu Qiang
 
         AsyncFunctionExpression :
           `async` `function` BindingIdentifier? `(` FormalParameters `)` `{` AsyncFunctionBody `}`
-        </del>
       </emu-grammar>
       <emu-alg>
-        1. <del>Return *false*.</del>
-      </emu-alg>
-      <emu-grammar>
-        <ins>
-        FunctionDeclaration :
-          `function` BindingIdentifier `(` FormalParameters `)` `{` FunctionBody `}`
-          `function` `(` FormalParameters `)` `{` FunctionBody `}`
-
-        FunctionExpression :
-          `function` BindingIdentifier? `(` FormalParameters `)` `{` FunctionBody `}`
-        </ins>
-      </emu-grammar>
-      <emu-alg>
-        1. If _symbol_ is |ClassHasInstanceCall|, then
-          1. If |FormalParameters| Contains _symbol_ is *true*, return *true*.
-          1. If |FunctionBody| Contains _symbol_ is *true*, return *true*.
-        1. Return *false*.
-      </emu-alg>
-      <emu-grammar>
-        <ins>
-        GeneratorDeclaration :
-          `function` `*` BindingIdentifier `(` FormalParameters `)` `{` GeneratorBody `}`
-          `function` `*` `(` FormalParameters `)` `{` GeneratorBody `}`
-
-        GeneratorExpression :
-          `function` `*` BindingIdentifier? `(` FormalParameters `)` `{` GeneratorBody `}`
-        </ins>
-      </emu-grammar>
-      <emu-alg>
-        1. If _symbol_ is |ClassHasInstanceCall|, then
-          1. If |FormalParameters| Contains _symbol_ is *true*, return *true*.
-          1. If |GeneratorBody| Contains _symbol_ is *true*, return *true*.
-        1. Return *false*.
-      </emu-alg>
-      <emu-grammar>
-        <ins>
-        AsyncGeneratorDeclaration :
-          `async` `function` `*` BindingIdentifier `(` FormalParameters `)` `{` AsyncGeneratorBody `}`
-          `async` `function` `*` `(` FormalParameters `)` `{` AsyncGeneratorBody `}`
-
-        AsyncGeneratorExpression :
-          `async` `function` `*` BindingIdentifier? `(` FormalParameters `)` `{` AsyncGeneratorBody `}`
-        </ins>
-      </emu-grammar>
-      <emu-alg>
-        1. If _symbol_ is one of |ClassHasInstanceCall|, then
-          1. If |FormalParameters| Contains _symbol_ is *true*, return *true*.
-          1. If |AsyncGeneratorBody| Contains _symbol_ is *true*, return *true*.
-        1. Return *false*.
-      </emu-alg>
-      <emu-grammar>
-        <ins>
-        AsyncFunctionDeclaration :
-          `async` `function` BindingIdentifier `(` FormalParameters `)` `{` AsyncFunctionBody `}`
-          `async` `function` `(` FormalParameters `)` `{` AsyncFunctionBody `}`
-
-        AsyncFunctionExpression :
-          `async` `function` BindingIdentifier? `(` FormalParameters `)` `{` AsyncFunctionBody `}`
-        </ins>
-      </emu-grammar>
-      <emu-alg>
-        1. If _symbol_ is one of |ClassHasInstanceCall|, then
-          1. If |FormalParameters| Contains _symbol_ is *true*, return *true*.
-          1. If |AsyncFunctionBody| Contains _symbol_ is *true*, return *true*.
+        1. <ins>If _symbol_ is |ClassHasInstanceCall|, then</ins>
+          1. <ins>If |FormalParameters| Contains _symbol_ is *true*, return *true*.</ins>
+          1. <ins>If |FunctionBody| of a |FunctionDeclaration| Contains _symbol_ is *true*, return *true*.</ins>
+          1. <ins>If |FunctionBody| of a |FunctionExpression| Contains _symbol_ is *true*, return *true*.</ins>
+          1. <ins>If |GeneratorBody| of a |GeneratorDeclaration| Contains _symbol_ is *true*, return *true*.</ins>
+          1. <ins>If |GeneratorBody| of a |GeneratorExpression| Contains _symbol_ is *true*, return *true*.</ins>
+          1. <ins>If |AsyncGeneratorBody| of an |AsyncGeneratorDeclaration| Contains _symbol_ is *true*, return *true*.</ins>
+          1. <ins>If |AsyncGeneratorBody| of an |AsyncGeneratorExpression| Contains _symbol_ is *true*, return *true*.</ins>
+          1. <ins>If |AsyncFunctionBody| of an |AsyncFunctionDeclaration| Contains _symbol_ is *true*, return *true*.</ins>
+          1. <ins>If |AsyncFunctionBody| of an |AsyncFunctionExpression| Contains _symbol_ is *true*, return *true*.</ins>
         1. Return *false*.
       </emu-alg>
       <emu-grammar>ArrowFunction : ArrowParameters `=>` ConciseBody</emu-grammar>
       <emu-alg>
-        1. <del>If _symbol_ is not one of |NewTarget|, |SuperProperty|, |SuperCall|, `super` or `this`, return *false*.</del>
-        1. <ins>If _symbol_ is not one of |NewTarget|, |SuperProperty|, |SuperCall|, |ClassHasInstanceCall|, `super` or `this`, return *false*.</ins>
+        1. If _symbol_ is not one of |NewTarget|, |SuperProperty|, |SuperCall|, <ins>|ClassHasInstanceCall|,</ins> `super` or `this`, return *false*.
         1. If |ArrowParameters| Contains _symbol_ is *true*, return *true*.
         1. Return |ConciseBody| Contains _symbol_.
       </emu-alg>
@@ -161,16 +104,14 @@ contributors: HE Shi-Jun, XU Tian-Yang, Tu Qiang
         AsyncArrowFunction : `async` AsyncArrowBindingIdentifier `=>` AsyncConciseBody
       </emu-grammar>
       <emu-alg>
-        1. <del>If _symbol_ is not one of |NewTarget|, |SuperProperty|, |SuperCall|, `super`, or `this`, return *false*.</del>
-        1. <ins>If _symbol_ is not one of |NewTarget|, |SuperProperty|, |SuperCall|, |ClassHasInstanceCall|, `super`, or `this`, return *false*.</ins>
+        1. If _symbol_ is not one of |NewTarget|, |SuperProperty|, |SuperCall|, <ins>|ClassHasInstanceCall|,</ins> `super`, or `this`, return *false*.
         1. Return |AsyncConciseBody| Contains _symbol_.
       </emu-alg>
       <emu-grammar>
         AsyncArrowFunction : CoverCallExpressionAndAsyncArrowHead `=>` AsyncConciseBody
       </emu-grammar>
       <emu-alg>
-        1. <del>If _symbol_ is not one of |NewTarget|, |SuperProperty|, |SuperCall|, `super`, or `this`, return *false*.</del>
-        1. <ins>If _symbol_ is not one of |NewTarget|, |SuperProperty|, |SuperCall|, |ClassHasInstanceCall|, `super`, or `this`, return *false*.</ins>
+        1. If _symbol_ is not one of |NewTarget|, |SuperProperty|, |SuperCall|, <ins>|ClassHasInstanceCall|,</ins> `super`, or `this`, return *false*.
         1. Let _head_ be the |AsyncArrowHead| that is covered by |CoverCallExpressionAndAsyncArrowHead|.
         1. If _head_ Contains _symbol_ is *true*, return *true*.
         1. Return |AsyncConciseBody| Contains _symbol_.
