@@ -832,24 +832,52 @@ contributors: HE Shi-Jun, XU Tian-Yang, Tu Qiang
   <emu-clause id="sec-class-definitions">
     <h1>Class Definitions</h1>
 
-    <emu-clause id="sec-static-semantics-includeclasshasinstance" type="sdo" aoid="IncludeClassHasInstance">
-      <h1><ins>Static Semantics: IncludeClassHasInstance</ins></h1>
+    <emu-clause id="sec-static-semantics-ContainsClassHasInstance" type="sdo" aoid="ContainsClassHasInstance">
+      <h1><ins>Static Semantics: ContainsClassHasInstance</ins></h1>
+
+      <emu-grammar>
+        ClassBody[Yield, Await] :
+          ClassElementList[?Yield, ?Await]
+      </emu-grammar>
+      <emu-alg>
+        1. Return ContainsClassHasInstance of |ClassElementList|.
+      </emu-alg>
+
+      <emu-grammar>
+        ClassElementList[Yield, Await] :
+          ClassElement[?Yield, ?Await]
+      </emu-grammar>
+      <emu-alg>
+        1. Return ContainsClassHasInstance of |ClassElement|.
+      </emu-alg>
+
+      <emu-grammar>
+        ClassElementList[Yield, Await] :
+          ClassElementList[?Yield, ?Await] ClassElement[?Yield, ?Await]
+      </emu-grammar>
+      <emu-alg>
+        1. If ContainsClassHasInstance of |ClassElement| is *true*, return *true*.
+        1. Return ContainsClassHasInstance of |ClassElement|.
+      </emu-alg>
+
       <emu-grammar>
         ClassElement :
           MethodDefinition
           `static` MethodDefinition
       </emu-grammar>
       <emu-alg>
-        1. Return IncludeClassHasInstance of |MethodDefinition|.
+        1. Return ContainsClassHasInstance of |MethodDefinition|.
       </emu-alg>
+
       <emu-grammar>
         ClassElement:
           FieldDefinition
           `static` FieldDefinition
       </emu-grammar>
       <emu-alg>
-        1. Return IncludeClassHasInstance of |FieldDefintion|.
+        1. Return ContainsClassHasInstance of |FieldDefintion|.
       </emu-alg>
+
       <emu-grammar>
         MethodDefinition : ClassElementName `(` UniqueFormalParameters `)` `{` FunctionBody `}`
       </emu-grammar>
@@ -857,25 +885,30 @@ contributors: HE Shi-Jun, XU Tian-Yang, Tu Qiang
         1. If |UniqueFormalParameters| Contains |ClassHasInstanceCall| is *true*, return *true*.
         2. Return |FunctionBody| Contains |ClassHasInstanceCall|.
       </emu-alg>
+
       <emu-grammar>MethodDefinition : `get` ClassElementName `(` `)` `{` FunctionBody `}`</emu-grammar>
       <emu-alg>
         1. Return |FunctionBody| Contains |ClassHasInstanceCall|.
       </emu-alg>
+
       <emu-grammar>MethodDefinition : `set` ClassElementName `(` PropertySetParameterList `)` `{` FunctionBody `}`</emu-grammar>
       <emu-alg>
         1. If |PropertySetParameterList| Contains |ClassHasInstanceCall| is *true*, return *true*.
         1. Return |FunctionBody| Contains |ClassHasInstanceCall|.
       </emu-alg>
+
       <emu-grammar>GeneratorMethod : `*` ClassElementName `(` UniqueFormalParameters `)` `{` GeneratorBody `}`</emu-grammar>
       <emu-alg>
         1. If |UniqueFormalParameters| Contains |ClassHasInstanceCall| is *true*, return *true*.
         1. Return |GeneratorBody| Contains |ClassHasInstanceCall|.
       </emu-alg>
+
       <emu-grammar>AsyncGeneratorMethod : `async` `*` ClassElementName `(` UniqueFormalParameters `)` `{` AsyncGeneratorBody `}`</emu-grammar>
       <emu-alg>
         1. If |UniqueFormalParameters| Contains |ClassHasInstanceCall| is *true*, return *true*.
         1. Return |AsyncGeneratorBody| Contains |ClassHasInstanceCall|.
       </emu-alg>
+
       <emu-grammar>
         AsyncMethod : `async` ClassElementName `(` UniqueFormalParameters `)` `{` AsyncFunctionBody `}`
       </emu-grammar>
@@ -883,13 +916,15 @@ contributors: HE Shi-Jun, XU Tian-Yang, Tu Qiang
         1. If |UniqueFormalParameters| Contains |ClassHasInstanceCall| is *true*, return *true*.
         1. Return |AsyncFunctionBody| Contains |ClassHasInstanceCall|.
       </emu-alg>
+
       <emu-grammar>
         FieldDefinition : ClassElementName Initializer?
       </emu-grammar>
       <emu-alg>
         1. If |Initializer_opt| is not preset, return *false*.
-        1. Return IncludeClassHasInstance of |Initializer|.
+        1. Return ContainsClassHasInstance of |Initializer|.
       </emu-alg>
+
       <emu-grammar>
         Initializer :
           `=` AssignmentExpression
@@ -897,6 +932,7 @@ contributors: HE Shi-Jun, XU Tian-Yang, Tu Qiang
       <emu-alg>
         1. Return |AssignmentExpression| Contains |ClassHasInstanceCall|
       </emu-alg>
+
     </emu-clause>
 
     <emu-clause id="sec-runtime-semantics-classdefinitionevaluation" oldids="sec-default-constructor-functions" type="sdo">
@@ -916,7 +952,7 @@ contributors: HE Shi-Jun, XU Tian-Yang, Tu Qiang
       <emu-grammar>ClassTail : ClassHeritage? `{` ClassBody? `}`</emu-grammar>
       <emu-alg>
         1. Let _env_ be the LexicalEnvironment of the running execution context.
-        1. Let _classEnv_ be NewDeclarativeEnvironment(_env_).
+        1. Let _classEnv_ be New<del>Declarative</del><ins>Class</ins>Environment(_env_).
         1. If _classBinding_ is not *undefined*, then
           1. Perform _classEnv_.CreateImmutableBinding(_classBinding_, *true*).
         1. Let _outerPrivateEnvironment_ be the running execution context's PrivateEnvironment.
@@ -974,6 +1010,9 @@ contributors: HE Shi-Jun, XU Tian-Yang, Tu Qiang
         1. Perform ! MakeConstructor(_F_, *false*, _proto_).
         1. If |ClassHeritage?| is present, set _F_.[[ConstructorKind]] to ~derived~.
         1. Perform ! CreateMethodProperty(_proto_, *"constructor"*, _F_).
+        1. <ins>Set _classEnv_.[[ClassConstructor]] to _F_.</ins>
+        1. <ins>If |ClassBody?| is present, then</ins>
+          1. <ins>If ContainsClassHasInstance of |ClassBody|, Set _F_.[[ClassBrand]] to a new unique value.</ins>
         1. If |ClassBody?| is not present, let _elements_ be a new empty List.
         1. Else, let _elements_ be NonConstructorElements of |ClassBody|.
         1. Let _instancePrivateMethods_ be a new empty List.
