@@ -94,6 +94,9 @@ contributors: HE Shi-Jun, XU Tian-Yang, Tu Qiang
           1. <ins>If |AsyncFunctionBody| of an |AsyncFunctionExpression| Contains _symbol_ is *true*, return *true*.</ins>
         1. Return *false*.
       </emu-alg>
+      <emu-note>
+        <p>Static semantic rules that depend upon substructure generally do not look into function definitions <ins>except for |ClassHasInstanceCall|s</ins>.</p>
+      </emu-note>
       <emu-grammar>ArrowFunction : ArrowParameters `=>` ConciseBody</emu-grammar>
       <emu-alg>
         1. If _symbol_ is not one of |NewTarget|, |SuperProperty|, |SuperCall|, <ins>|ClassHasInstanceCall|,</ins> `super` or `this`, return *false*.
@@ -116,6 +119,9 @@ contributors: HE Shi-Jun, XU Tian-Yang, Tu Qiang
         1. If _head_ Contains _symbol_ is *true*, return *true*.
         1. Return |AsyncConciseBody| Contains _symbol_.
       </emu-alg>
+      <emu-note>
+        <p>Contains is used to detect `new.target`, <ins>`class.hasInstance`,</ins> `this`, and `super` usage within an |ArrowFunction| or |AsyncArrowFunction|.</p>
+      </emu-note>
     </emu-clause>
   </emu-clause>
 
