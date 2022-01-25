@@ -829,6 +829,7 @@ contributors: HE Shi-Jun, XU Tian-Yang, Tu Qiang
 </emu-clause>
 
 <emu-clause id="sec-ecmascript-language-functions-and-classes">
+  <h1>ECMAScript Language: Functions and Classes</h1>
   <emu-clause id="sec-class-definitions">
     <h1>Class Definitions</h1>
 
