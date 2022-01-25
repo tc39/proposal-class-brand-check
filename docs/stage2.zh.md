@@ -9,12 +9,12 @@
 ```js
 class Range {
   start
-	end
+  end
   equals(that) {
     if (!class.hasInstance(that)) return false
     return this.start === that.start && this.end === that.end
   }
-	// ...
+  // ...
 }
 ```
 
@@ -55,7 +55,7 @@ class Feature extends Return {
 
 此外，也有一些开发者（包括 `#priv in o` 提案的 champion @ljharb）将 `#priv in o` 视为 duck type check 的 private 版本。不过，我们认为，duck type check 更多地是作为一种接口检查的替代品，而不是对象有效性检查的良好替代品。
 
-另一方面，之所以开发者被教育使用 duck type check，是因为 `instanceof` 不能跨 realm，这在 web 早期 frame 流行时代是一个重大痛点，而基于字符串的 duck type check 天然是跨 realm 的。虽然跨 realm 问题在今天可能已经并非 web 开发的主要矛盾，但长期的教程文档遗产令广大的 JavaScript 开发者建立「duck type check」等于「可以跨 realm」的认知。而 `#priv in o` 虽然看上去很像是 duck type check，但并不能跨 realm。所以鸭子类型检查之`#priv in o`虽然看上去和鸭子类型检查之 `key in o` 长得一副鸭子样，但走起来叫起来却并不同。这种错误期待的可能性从 benlesh 的问题（https://github.com/tc39/proposal-class-brand-check/issues/2）略微可以看出来。当然这并不是致命的，但大概也不是什么好事。比较而言，`class.hasInstance(o)`从字面理解上更导向一个「适用用于现代 JavaScript的，基于 class 而不是基于原型的 `instanceof` 升级版，而较不易让使用者产生可跨 realm 的错误期待。
+另一方面，之所以开发者被教育使用 duck type check，是因为 `instanceof` 不能跨 realm，这在 web 早期 frame 流行时代是一个重大痛点，而基于字符串的 duck type check 天然是跨 realm 的。虽然跨 realm 问题在今天可能已经并非 web 开发的主要矛盾，但长期的教程文档遗产令广大的 JavaScript 开发者建立「duck type check」等于「可以跨 realm」的认知。而 `#priv in o` 虽然看上去很像是 duck type check，但并不能跨 realm。所以鸭子类型检查之`#priv in o`虽然看上去和鸭子类型检查之 `key in o` 长得一副鸭子样，但走起来叫起来却并不同。这种错误期待的可能性从 [benlesh 的问题](https://github.com/tc39/proposal-class-brand-check/issues/2)略微可以看出来。当然这并不是致命的，但大概也不是什么好事。比较而言，`class.hasInstance(o)`从字面理解上更导向一个「适用用于现代 JavaScript的，基于 class 而不是基于原型的 `instanceof` 升级版，而较不易让使用者产生可跨 realm 的错误期待。
 
 整体性的实例检查，和个别的 private 元素检查，到底何种心智模型是更广泛和普适的，恐怕是一个无法达到完全共识的问题，委员会可能应该在此问题上保持中立。我和本提案的其他 champion 从我们所在的公司和社区的反馈，认为整体性的实例检查对于普通开发者来说，是更为常见和有用的，至少应该得到与个别 private 元素存在性检查相等同的语法级别支持。
 
@@ -70,14 +70,14 @@ class Feature extends Return {
 ```js
 class Range {
   start
-	end
+  end
   equals(that) {
     if (#brand in that) return false
     return this.start === that.start && this.end === that.end
   }
-	// ...
-	// DO NOT add class fields after this line!!!
-	#brand // Only for branding purpose, don't touch it!
+  // ...
+  // DO NOT add class fields after this line!!!
+  #brand // Only for branding purpose, don't touch it!
 }
 ```
 
@@ -116,7 +116,7 @@ https://github.com/tc39/proposal-class-brand-check/issues/8
 
 https://github.com/tc39/proposal-class-brand-check/issues/7
 
-eval(‘class.hasInstance(x)’) 扔syntax error。
+`eval("class.hasInstance(x)")` 扔 syntax error。
 
 ### `class.hasInstance`语法
 
