@@ -93,7 +93,7 @@ class C {
 ## Presentations
 
 - [Slide for stage 1, on the 80th meeting of Ecma TC39 (January 2021)](https://johnhax.net/2021/class-brand/slide)
-- [Slide for Stage 2, on the 88th meeting of Ecma TC39 (January 2022)](https://johnhax.net/2021/class-brand/slide)
+- [Slide for Stage 2, on the 88th meeting of Ecma TC39 (January 2022)](https://johnhax.net/2022/class-brand/slide)
 
 ## Analysis of edge cases of interactions of using class brand check with private fields
 
