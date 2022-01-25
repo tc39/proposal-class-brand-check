@@ -595,12 +595,10 @@ contributors: HE Shi-Jun, XU Tian-Yang, Tu Qiang
 
   <emu-clause id="sec-ecmascript-function-objects">
     <h1>ECMAScript Function Objects</h1>
-
-    <p>ECMAScript function objects encapsulate parameterized ECMAScript code closed over a lexical environment and support the dynamic evaluation of that code. An ECMAScript function object is an ordinary object and has the same internal slots and the same internal methods as other ordinary objects. The code of an ECMAScript function object may be either strict mode code (<emu-xref href="#sec-strict-mode-code"></emu-xref>) or non-strict code. An ECMAScript function object whose code is strict mode code is called a <dfn id="strict-function">strict function</dfn>. One whose code is not strict mode code is called a <dfn id="non-strict-function">non-strict function</dfn>.</p>
+    <p>ECMAScript function objects encapsulate parameterized ECMAScript code closed over a lexical environment and support the dynamic evaluation of that code. An ECMAScript function object is an ordinary object and has the same internal slots and the same internal methods as other ordinary objects. The code of an ECMAScript function object may be either strict mode code (<emu-xref href="#sec-strict-mode-code"></emu-xref>) or non-strict code. An ECMAScript function object whose code is strict mode code is called a <dfn id="strict-function" variants="strict functions">strict function</dfn>. One whose code is not strict mode code is called a <dfn id="non-strict-function" variants="non-strict functions">non-strict function</dfn>.</p>
     <p>In addition to [[Extensible]] and [[Prototype]], ECMAScript function objects also have the internal slots listed in <emu-xref href="#table-internal-slots-of-ecmascript-function-objects"></emu-xref>.</p>
     <emu-table id="table-internal-slots-of-ecmascript-function-objects" caption="Internal Slots of ECMAScript Function Objects" oldids="table-27">
       <table>
-        <tbody>
         <tr>
           <th>
             Internal Slot
@@ -621,6 +619,17 @@ contributors: HE Shi-Jun, XU Tian-Yang, Tu Qiang
           </td>
           <td>
             The Environment Record that the function was closed over. Used as the outer environment when evaluating the code of the function.
+          </td>
+        </tr>
+        <tr>
+          <td>
+            [[PrivateEnvironment]]
+          </td>
+          <td>
+            PrivateEnvironment Record | *null*
+          </td>
+          <td>
+            The PrivateEnvironment Record for Private Names that the function was closed over. *null* if this function is not syntactically contained within a class. Used as the outer PrivateEnvironment for inner classes when evaluating the code of the function.
           </td>
         </tr>
         <tr>
@@ -713,17 +722,6 @@ contributors: HE Shi-Jun, XU Tian-Yang, Tu Qiang
         </tr>
         <tr>
           <td>
-            <ins>[[InitialClassObject]]</ins>
-          </td>
-          <td>
-            <ins>Object | *undefined*</ins>
-          </td>
-          <td>
-            <ins>If the function has `class` property access, this is the function object where `class` property lookups begin.</ins>
-          </td>
-        </tr>
-        <tr>
-          <td>
             [[SourceText]]
           </td>
           <td>
@@ -731,6 +729,39 @@ contributors: HE Shi-Jun, XU Tian-Yang, Tu Qiang
           </td>
           <td>
             The <emu-xref href="#sec-source-text">source text</emu-xref> that defines the function.
+          </td>
+        </tr>
+        <tr>
+          <td>
+            [[Fields]]
+          </td>
+          <td>
+            List of ClassFieldDefinition Records
+          </td>
+          <td>
+            If the function is a class, this is a list of Records representing the non-static fields and corresponding initializers of the class.
+          </td>
+        </tr>
+        <tr>
+          <td>
+            [[PrivateMethods]]
+          </td>
+          <td>
+            List of PrivateElements
+          </td>
+          <td>
+            If the function is a class, this is a list representing the non-static private methods and accessors of the class.
+          </td>
+        </tr>
+        <tr>
+          <td>
+            [[ClassFieldInitializerName]]
+          </td>
+          <td>
+            String | Symbol | Private Name | ~empty~
+          </td>
+          <td>
+            If the function is created as the initializer of a class field, the name to use for NamedEvaluation of the field; ~empty~ otherwise.
           </td>
         </tr>
         <tr>
@@ -744,7 +775,6 @@ contributors: HE Shi-Jun, XU Tian-Yang, Tu Qiang
             Indicates whether the function is a class constructor. (If *true*, invoking the function's [[Call]] will immediately throw a *TypeError* exception.)
           </td>
         </tr>
-        </tbody>
       </table>
     </emu-table>
 
